@@ -51,14 +51,20 @@ cd Xposure
 
 2. Modifiez les variables d'environnement dans le fichier `.env` pour y inclure les clés d'API, les mots de passe, et autres configurations spécifiques.
 
-### Étape 3 : Configurer le frontend
+3. Vérifié qu'un fichier vide `db.sqlite3` existe dans le repertoire `/backend`, sinon (pour Linux):
+   ```bash
+   nano backend/db.sqlite3
+   ```
+   Le docker va créer un superuser avec le nom et le mdp définie dans .env (default test/test)
+
+### Étape 3 : Configurer le frontend (par défaut : `localhost`)
 
 1. Copiez le fichier d'exemple `.env` :
    ```bash
    cp frontend/.env.example frontend/.env
    ```
 
-2. Ajoutez l'URL backend dans le fichier `.env` (par défaut : `localhost`).
+2. Ajoutez l'URL backend dans le fichier `.env`.
 
 ### Étape 4 : Builder les conteneurs Docker
 

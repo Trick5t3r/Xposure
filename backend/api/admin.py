@@ -20,7 +20,7 @@ class BaseFileAdmin(PolymorphicParentModelAdmin):
     Admin for the polymorphic parent model (BaseFile).
     """
     base_model = BaseFile
-    child_models = (PDFFile, ExcelFile, PowerPointFile, AudioFile, VideoFile, ImageFile, OtherFile)
+    child_models = (PDFFile, ImageFile, OtherFile)
     list_display = ['title', 'chatsession', 'created_at', 'polymorphic_ctype']
     #search_fields = ['title', 'content']
 

@@ -10,7 +10,6 @@ services:
       - ./backend:/app  # Code source
       - ./backend/static:/app/static  # Fichiers statiques
       - ./backend/media:/app/media  # Fichiers médias
-      - ./backend/db.sqlite3:/app/db.sqlite3  # Base de données SQLite
       - ./logs:/logs  # Logs accessibles hors du conteneur
     ports:
       - "8000:8000"

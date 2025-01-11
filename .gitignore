@@ -22,9 +22,3 @@ logs/
 node_modules/
 
 build/
-
-# Ignorer les fichiers SQLite
-*.sqlite
-*.sqlite3
-*.db
-*.db3
