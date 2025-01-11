@@ -1,31 +1,29 @@
-# Projet Django - React (Vite) - Nginx - Docker
+# Xposure - Analyse de l'image de marque pour Engie
 
-Ce projet est une implémentation d'un clone de ChatGPT, en se basant sur le modèle **Mistral**. Il combine un **backend Django** pour l'API, un **frontend React** (utilisant Vite), et une architecture de conteneurisation complète avec **Docker** et **Nginx**.
-
-Ce projet m'a permis de :
-- Apprendre à développer une application frontend en React intégrée avec un backend Django.
-- Mettre en œuvre la conteneurisation avec Docker, en créant des images personnalisées pour chaque composant.
-- Configurer un serveur de production avec Nginx.
+Xposure est une application développée par une équipe de Polytechniciens (X), conçue pour agréger des ressources médias et fournir des analyses approfondies de l'image de marque d'Engie.
 
 ---
 
 ## Fonctionnalités principales
 
-- **Backend Django** :
-  - Gestion des API pour communiquer avec le frontend.
-  - Intégration avec le modèle Mistral pour répondre aux requêtes utilisateur.
-  - Système de gestion des utilisateurs et des sessions.
+### **Backend Django**
+- Gestion des API pour l'agrégation de ressources médias.
+- Analyse des données pour fournir des bilans sur l'image de marque.
+- Système de gestion des utilisateurs avec des rôles personnalisés (analystes, administrateurs, etc.).
 
-- **Frontend React (Vite)** :
-  - Interface utilisateur moderne et interactive.
-  - Communication avec l'API Django via des appels HTTP.
+### **Frontend React (Vite) + MUI**
+- Interface intuitive pour consulter et analyser les bilans d'image de marque.
+- Tableaux de bord interactifs affichant des données clés et des insights visuels.
+- Communication fluide avec l'API backend via des appels HTTP.
+- Utilisation de MUI
 
-- **Conteneurisation Docker** :
-  - Images distinctes pour le backend, le frontend, et le serveur Nginx.
-  - Utilisation de volumes pour gérer les fichiers statiques et médias.
+### **Conteneurisation Docker**
+- Conteneurs distincts pour le backend, le frontend, et le serveur Nginx.
+- Intégration des fichiers statiques pour un déploiement fluide.
 
-- **Nginx** :
-  - Proxy inverse pour servir les fichiers statiques de React et rediriger les requêtes API vers Django.
+### **Nginx**
+- Proxy inverse pour servir les fichiers statiques et gérer les requêtes API.
+- Optimisation pour un usage en environnement de production.
 
 ---
 
@@ -37,63 +35,75 @@ Ce projet m'a permis de :
 
 ## Configuration
 
-
 ### Étape 1 : Cloner le projet depuis GitHub
-
-Clonez le dépôt GitHub à l'adresse `XXX` :
-   ```bash
-   git clone https://github.com/Trick5t3r/Django-React-Docker-Project.git
-   cd Django-React-Docker-Project
-   ```
+Clonez le dépôt GitHub :
+```bash
+git clone https://github.com/Trick5t3r/Xposure.git
+cd Xposure
+```
 
 ### Étape 2 : Configurer le backend
 
 1. Copiez le fichier d'exemple `.env` :
    ```bash
-   cp /backend/.env.example /backend/.env
+   cp backend/.env.example backend/.env
    ```
 
-2. Editer les variables d'environnement pour mettre vos clefs d'API et vos mots de passe du fichier `.env`
+2. Modifiez les variables d'environnement dans le fichier `.env` pour y inclure les clés d'API, les mots de passe, et autres configurations spécifiques.
 
-4. Copiez le fichier d'exemple `.env` :
+### Étape 3 : Configurer le frontend
+
+1. Copiez le fichier d'exemple `.env` :
    ```bash
-   cp /frotend/.env.example /frontend/.env
+   cp frontend/.env.example frontend/.env
    ```
 
-4. Editer les variables d'environnement pour mettre votre url dans le fichier `.env` (defaul localhost)
+2. Ajoutez l'URL backend dans le fichier `.env` (par défaut : `localhost`).
 
+### Étape 4 : Builder les conteneurs Docker
 
-### Étape 3 : Builder le docker
-  ```bash
-  docker-compose up --build -d
-  ```
-
-Et voilà le serveur tourne
-### Commandes supplémentaires
-Pour stop le serveur
+Lancez les commandes suivantes pour construire et démarrer les conteneurs :
 ```bash
+docker-compose up --build -d
+```
+Et voilà, le serveur est en marche !
+
+---
+
+## Commandes supplémentaires
+
+- **Arrêter le serveur** :
+  ```bash
   docker-compose down
   ```
-  Pour juste redemarrer
+
+- **Redémarrer le serveur** :
   ```bash
   docker-compose up
   ```
-  et pour run (redemarrer) en background
+
+- **Lancer en arrière-plan** :
   ```bash
   docker-compose up -d
   ```
 
-Pour lister les process docker
+- **Lister les conteneurs actifs** :
   ```bash
   docker ps
   ```
 
-  Pour mettre tous les requirements python dans le bon fichier et tout rebuild :
+- **Rebuild complet avec les fichiers requis Python** (pour Linux) :
   ```bash
   ./build_assets_force.sh
   ```
 
-  Pour run en dehors du docker directement sur un ordi linux avec les différents serveurs avec une conf nginx deja installé idoine
+- **Exécution sans Docker** (pour Linux) :
   ```bash
   ./manage.sh start/stop
   ```
+
+---
+
+## Objectifs du projet
+
+**Xposure : Parce que l'image de marque compte.**
