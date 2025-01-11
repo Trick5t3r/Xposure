@@ -1,0 +1,50 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: backend
+    environment:
+      - DEBUG=true  # Passez à false pour le mode production
+    volumes:
+      - ./backend:/app  # Code source
+      - ./backend/static:/app/static  # Fichiers statiques
+      - ./backend/media:/app/media  # Fichiers médias
+      - ./backend/db.sqlite3:/app/db.sqlite3  # Base de données SQLite
+      - ./logs:/logs  # Logs accessibles hors du conteneur
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: frontend
+    environment:
+      - DEBUG=true  # Passez à false pour le mode production
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=1  # Force le mode polling
+    volumes:
+      - ./frontend:/app  # Code source Vite
+      - /app/node_modules
+      - ./logs:/logs  # Logs accessibles hors du conteneur
+    ports:
+      - "5173:5173"  # Mode développement
+    depends_on:
+      - backend
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./backend/static:/app/static  # Accès aux fichiers statiques
+      - ./backend/media:/app/media  # Accès aux fichiers médias
+      - ./frontend/build:/usr/share/nginx/html  # Fichiers Vite construits en production
+      - ./logs:/logs  # Logs accessibles hors du conteneur
+    depends_on:
+      - backend
+      - frontend

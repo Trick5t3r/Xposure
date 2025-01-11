@@ -1,0 +1,26 @@
+# Utiliser une image Node.js comme base
+FROM node:20
+
+# Définir le répertoire de travail
+WORKDIR /app
+
+# Copier uniquement les fichiers nécessaires pour installer les dépendances
+COPY frontend/package*.json ./
+
+# Forcer l'installation des devDependencies
+ENV NODE_ENV=development
+
+# Installer les dépendances
+RUN npm install
+
+# Copier le reste de l'application
+#COPY frontend/ .
+
+# Créer un répertoire pour les logs
+RUN mkdir -p /logs
+
+# Exposer le port utilisé par Vite
+EXPOSE 5173
+
+# Commande pour exécuter le serveur de développement
+CMD ["bash", "-c", "npm run dev --host >> /logs/log_react.log 2>&1"]

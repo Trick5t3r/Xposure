@@ -1,0 +1,8 @@
+env/
+/backend/media/
+__pycache__/
+node_modules
+build
+logs
+.env
+*.log
