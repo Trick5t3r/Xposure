@@ -108,6 +108,10 @@ Et voilà, le serveur est en marche !
   ./manage.sh start/stop
   ```
 
+- **Conection à un conteneur Docker** :
+  ```bash
+  docker exec -it frontend /bin/sh
+  ```
 ---
 
 ## Objectifs du projet
