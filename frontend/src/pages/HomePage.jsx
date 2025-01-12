@@ -26,8 +26,8 @@ function HomePage() {
                     <h2>Into Actionable <span>Insights</span></h2>
                     <p>Upload your press articles and let our AI analyze sentiment, extract key themes, and generate comprehensive reports in seconds.</p>
                     <div className="home-button-container">
-                        <button className="home-primary-button">Upload files</button>
-                        <button className="home-secondary-button">► Generate report</button>
+                        {/* <button className="home-primary-button">Upload files</button>
+                        <button className="home-secondary-button">► Generate report</button> */}
                     </div>
                 </div>
             </div>
