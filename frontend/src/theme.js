@@ -4,20 +4,20 @@ const theme = createTheme({
   palette: {
     mode: "light", // Chakra par défaut est en mode clair
     primary: {
-      main: "#4A5568", // Gris foncé adapté comme couleur principale
-      contrastText: "#FFFFFF", // Texte blanc pour le contraste
+      main: "#1423dc", // Bleu d'ENEDIS
+      contrastText: "#E1E1E1", // Texte blanc pour le contraste
     },
     secondary: {
-      main: "#A0AEC0", // Gris clair pour les accents
+      main: "#93c90e", // Vert d'ENEDIS
       contrastText: "#FFFFFF", // Texte sombre pour le contraste sur le gris clair
     },      
     background: {
-      default: "#F7FAFC", // Gris clair pour l'arrière-plan
+      default: "#0F0F0F", // Gris clair pour l'arrière-plan
       paper: "#FFFFFF", // Blanc pour les composants
     },
     text: {
-      primary: "#2D3748", // Texte principal en gris foncé
-      secondary: "#718096", // Texte secondaire
+      primary: "#E1E1E1", // Texte principal en gris foncé
+      secondary: "red", // Texte secondaire
     },
     gray_color: {
       main: "#E3E3E3",
@@ -30,11 +30,15 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: "'Inter', sans-serif", // Police par défaut de Chakra
-    h1: { fontWeight: 700, fontSize: "2.25rem" }, // Style pour h1
-    h2: { fontWeight: 700, fontSize: "1.875rem" },
-    h3: { fontWeight: 700, fontSize: "1.5rem" },
-    body1: { fontSize: "1rem", color: "#2D3748" },
-    body2: { fontSize: "0.875rem", color: "#718096" },
+    fontWeightRegular: 400,
+    fontWeightBold: 700,
+    h1: { fontWeight: 700, fontSize: "4.210rem", letterSpacing: 0, lineHeight: 1.3}, // Style pour h1
+    h2: { fontSize: "3.158rem" },
+    h3: { fontSize: "2.369rem" },
+    h4: { fontSize: "1.777rem" },
+    h5: { fontSize: "1.333rem" },
+    body1: { fontSize: "1rem", fontWeight: 400 }, // Style pour body1
+    body2: { fontSize: "0.875rem" },
   },
   shape: {
     borderRadius: 8, // Coins arrondis comme Chakra
