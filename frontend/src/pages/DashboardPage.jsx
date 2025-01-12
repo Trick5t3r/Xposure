@@ -4,16 +4,23 @@ import NavBar from '../components/NavBar';
 import SideBarDash from '../components/SideBarDash';
 import "../styles/DashboardPage.css";
 import ChartDashboard from '../components/ChartDashboard';
+import FranceMap from '../components/FranceMap';
 
-function DashboardPage() {
+function DashboardPage() {      
     return (
         <div className="dashboard-page">
             <NavBar />
             <div className="dashboard-layout">
                 <SideBarDash />
                 <div className="content">
-                    <h1>Home Page</h1>
-                    <ChartDashboard />
+                    <div>
+                        <h1>France</h1>
+                        <FranceMap />
+                    </div>
+                    <div>
+                        <h1>Graphiques</h1>
+                        <ChartDashboard />
+                    </div>
                 </div>
             </div>
         </div>
