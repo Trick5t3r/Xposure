@@ -14,8 +14,8 @@
   }
   
   :root {
-    --primary: #111cbae3;
     --secondary: #26d8d8e3;
+    --primary: #116d75e3;
     --background: #141414;
     --black: #000;
     --text: #e4e4e4;
@@ -23,7 +23,7 @@
   
   .home-top-page {
     height: 100vh;
-    background: linear-gradient(rgba(0, 0, 0, 0.8) 0, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 1) 95%), url(../imgs/ia.webp);
+    background: linear-gradient(rgba(0, 0, 0, 0.8) 0, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 1) 95%), url(../../public/imgs/ia.webp);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -114,7 +114,7 @@
     font-family: "font-reg", sans-serif;
     background-color: var(--background);
     color: var(--text);
-    height: 100vh;
+    padding-bottom: 50px;
   }
 
   .home-middle-page-wrapper {
@@ -125,7 +125,7 @@
   }
 
   .home-middle-page-card {
-    background: linear-gradient(49deg, #1421db 0, #93c80e 100%);
+    background: linear-gradient(49deg, #26d8d8 0%, #116d75 100%);
     width: 380px;
     height: 200px;
     border-radius: 12px;
@@ -161,4 +161,91 @@
 
 .home-middle-page-card-container p {
   font-size: 1rem;
+}
+
+.home-about-us-wrapper {
+  display: flex;
+  justify-content: space-around; /* Centre les éléments */
+  width: 100%; /* Pour s'assurer que le conteneur prend toute la largeur */
+  padding: 0 100px;
+  margin: 100px 0;
+}
+
+.home-about-us-card {
+  width: 380px;
+  height: 470px;
+  background: linear-gradient(49deg, #26d8d8 0%, #116d75 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  position: relative;
+  border-radius: 12px;
+}
+
+.home-about-us-card-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 50px;
+  width: 102%;
+  height: 102%;
+  background-color: var(--background);
+  border-radius: 12px;
+  transition: 0.2s ease;
+  text-align: center;
+  margin: -1px -1px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.home-about-us-card:hover .home-about-us-card-container {
+  border-radius: 10px;
+  inset: 5px;
+}
+
+.home-photo {
+  border-radius: 150px;
+  width: 200px;
+  height: 200px;
+}
+
+.home-about-us h3 {
+  font-size: 3.42rem;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+.separator {
+  position: relative;
+  width: 100%; /* Largeur du conteneur */
+  height: 25vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.separator::after {
+  content: "";
+  position: absolute;
+  width: 80%; /* Taille initiale de la ligne */
+  height: 1px; /* Épaisseur de la ligne */
+  background: linear-gradient(var(--secondary) 0, var(--primary) 100%); /* Dégradé */
+  animation: expand-retract 4s infinite ease-in-out; /* Animation */
+}
+
+@keyframes expand-retract {
+  0% {
+    width: 80%; /* Taille initiale */
+  }
+  50% {
+    width: 30%; /* La ligne se rétracte */
+  }
+  100% {
+    width: 80%; /* Retour à la taille initiale */
+  }
 }

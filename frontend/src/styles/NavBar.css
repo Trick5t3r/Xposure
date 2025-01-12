@@ -1,6 +1,6 @@
 :root {
-    --primary: #1422dbe3;
-    --secondary: #93c80ee3;
+    --secondary: #26d8d8e3;
+    --primary: #116d75e3;
     --background: #141414;
     --text: #e4e4e4;
     --search-border: #e4e4e48c;
@@ -49,7 +49,7 @@ src: url(../fonts/RubikVinyl-Regular.ttf);
     font-size: 3rem;
     letter-spacing: 4px;
     user-select: none;
-    background: linear-gradient(139deg, rgba(20,34,219,1) 0%, rgba(147,200,14,1) 100%);
+    background: linear-gradient(139deg, #26d8d8 0%, #116d75 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
