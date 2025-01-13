@@ -22,7 +22,7 @@ function HomePage() {
     const handleRedirect = (link) => {
         window.open(link, "_blank");
     };
-    return <>
+    return <div className='home-page'>
             <div className="home-top-page">
                 <NavBar />
                 <div className="home-top-page-content">
@@ -76,7 +76,7 @@ function HomePage() {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
 }
 
 export default HomePage;
