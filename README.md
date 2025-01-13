@@ -101,6 +101,12 @@ Utilisez le `username_superuser` et le `MDP_superuser` pour vous connecter en ta
   docker ps
   ```
 
+  - **Conection à un conteneur Docker** :
+  ```bash
+  docker exec -it conteneur /bin/sh
+  ```
+  Avec `conteneur={nginx/backend/frontend}`
+
 - **Rebuild complet avec les fichiers requis Python** (pour Linux) :
   ```bash
   ./build_assets_force.sh
@@ -111,10 +117,6 @@ Utilisez le `username_superuser` et le `MDP_superuser` pour vous connecter en ta
   ./manage.sh start/stop
   ```
 
-- **Conection à un conteneur Docker** :
-  ```bash
-  docker exec -it frontend /bin/sh
-  ```
 ---
 
 ## Objectifs du projet
