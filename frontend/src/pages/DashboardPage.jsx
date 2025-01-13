@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect, useRef } from 'react';
 import api from "../api";
 import NavBar from '../components/NavBar';
 import SideBarDash from '../components/SideBarDash';
@@ -6,7 +6,87 @@ import "../styles/DashboardPage.css";
 import ChartDashboard from '../components/ChartDashboard';
 import ChatSidebar from '../components/ChatSidebar';
 
-function DashboardPage() {      
+function DashboardPage() {
+    const chatBoxRef = useRef(null);
+
+    useEffect(() => {
+        if (chatBoxRef.current) {
+            api.get(`/api/chatsessions/`)
+                .then((res) => res.data)
+                .then((data) => {
+                    if (chatBoxRef.current) {
+                        chatBoxRef.current.setMessages(data.messages);
+                    }
+                })
+                .catch((err) => alert("Error loading session messages: " + err));
+        }
+    }, []);
+
+    const handleSendMessage = (input) => {
+        const newMessage = { role: "user", content: input.message, context: { files: input.files } };
+
+        if (chatBoxRef.current) {
+            chatBoxRef.current.setMessages((prevMessages) => [...prevMessages, newMessage]);
+        }
+
+        api.patch(`/api/chatsessions/`, {
+            messages: [newMessage],
+        })
+            .then((res) => {
+                if (res.status === 200) {
+                    return api.get(`/api/chatsessions/`);
+                } else {
+                    throw new Error("Failed to update the session.");
+                }
+            })
+            .then((res) => res.data)
+            .then((data) => {
+                if (chatBoxRef.current) {
+                    chatBoxRef.current.setMessages(data.messages);
+                }
+            })
+            .catch((err) => {
+                alert("Error updating the session: " + err);
+                if (chatBoxRef.current) {
+                    chatBoxRef.current.setMessages((prevMessages) =>
+                        prevMessages.filter((msg) => msg !== newMessage)
+                    );
+                }
+            });
+    };
+
+    const handleUploadFile = (file) => {
+        const formData = new FormData();
+        formData.append("file", file);
+        //formData.append("sessionid", currentSession);
+
+        const fileExtension = file.name.split('.').pop().toLowerCase();
+        const resourceType = ["png", "jpg", "jpeg", "bmp", "tiff"].includes(fileExtension)
+            ? "ImageFile"
+            : fileExtension === "pdf"
+            ? "PDFFile"
+            : "OtherFile";
+
+        formData.append("resourcetype", resourceType);
+
+        return api.post(`/api/fileupload/`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        })
+            .then((res) => {
+                if (res.status === 201) {
+                    return res.data;
+                } else {
+                    throw new Error("Failed to upload file.");
+                }
+            })
+            .catch((err) => {
+                alert("Error uploading file: " + err.message);
+                throw err;
+            });
+    };
+
     return (
         <div className="dashboard-page">
             <NavBar />
@@ -24,7 +104,11 @@ function DashboardPage() {
                         <h1>Prédictions</h1>
                     </div>
                 </div>
-                <ChatSidebar />
+                <ChatSidebar
+                    ref={chatBoxRef}
+                    handleSendMessage={handleSendMessage}
+                    handleUploadFile={handleUploadFile}
+                />
             </div>
         </div>
     );

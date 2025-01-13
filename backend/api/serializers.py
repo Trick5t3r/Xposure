@@ -8,6 +8,16 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_polymorphic.serializers import PolymorphicSerializer
 from .models import BaseFile, PDFFile, ImageFile, OtherFile
 
+#Functions
+def get_or_create_last_chat_session(user):
+    # Tente de récupérer la dernière ChatSession
+    chat_session = ChatSession.objects.filter(user=user).order_by('-created_at').first()
+    
+    # Si aucune session n'existe, en créer une nouvelle
+    if not chat_session:
+        chat_session = ChatSession.objects.create(user=user, title=f"Session of {user}", messages=[{ "role": "assistant", "content": "Que puis-je faire pour vous ?" }])
+    
+    return chat_session
 
 #Personnalise les tokens
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -71,35 +81,18 @@ class ChatSessionUpdateSerializer(serializers.ModelSerializer):
 #### RAG serializers 
 
 class BaseFileSerializer(serializers.ModelSerializer):
-    sessionid = serializers.IntegerField(write_only=True)  # Temporary field for input
     chatsession = serializers.PrimaryKeyRelatedField(read_only=True)  # Output field (linked object)
 
     class Meta:
         model = BaseFile
-        fields = ['id', 'title', 'sessionid', 'chatsession', 'file', 'created_at']
+        fields = ['id', 'title', 'chatsession', 'file', 'created_at']
         read_only_fields = ['id', 'title', 'chatsession', 'created_at']
 
     def validate(self, attrs):
         request = self.context.get('request')
-        session_id = attrs.get('sessionid')
-
-        # Ensure session exists and belongs to the user
-        try:
-            chat_session = ChatSession.objects.get(pk=session_id)
-        except ChatSession.DoesNotExist:
-            raise serializers.ValidationError({"sessionid": "ChatSession does not exist."})
-
-        if chat_session.user != request.user:
-            raise serializers.ValidationError({"sessionid": "You do not have permission to use this session."})
-
         # Replace sessionid with the actual ChatSession object
-        attrs['chatsession'] = chat_session
+        attrs['chatsession'] = get_or_create_last_chat_session(request.user)
         return attrs
-
-    def create(self, validated_data):
-        # 'sessionid' has already been handled in validate
-        validated_data.pop('sessionid', None)
-        return BaseFile.objects.create(**validated_data)
 
 
 
@@ -107,31 +100,16 @@ class BaseFileSerializer(serializers.ModelSerializer):
 class PDFFileSerializer(BaseFileSerializer):
     class Meta(BaseFileSerializer.Meta):  # Hériter des champs et des options Meta
         model = PDFFile
-
-    def create(self, validated_data):
-        # 'sessionid' has already been handled in validate
-        validated_data.pop('sessionid', None)
-        return PDFFile.objects.create(**validated_data)
     
 
 class ImageFileSerializer(BaseFileSerializer):
     class Meta(BaseFileSerializer.Meta):  # Hériter des champs et des options Meta
         model = ImageFile
 
-    def create(self, validated_data):
-        # 'sessionid' has already been handled in validate
-        validated_data.pop('sessionid', None)
-        return ImageFile.objects.create(**validated_data)
-
 
 class OtherFileSerializer(BaseFileSerializer):
     class Meta(BaseFileSerializer.Meta):  # Hériter des champs et des options Meta
         model = OtherFile
-
-    def create(self, validated_data):
-        # 'sessionid' has already been handled in validate
-        validated_data.pop('sessionid', None)
-        return OtherFile.objects.create(**validated_data)
 
 
 class BaseFilePolymorphicSerializer(PolymorphicSerializer):
