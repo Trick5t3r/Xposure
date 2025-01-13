@@ -1,14 +1,26 @@
 import React from 'react';
 import '../styles/SideBarDash.css'; // Import the CSS file for styling
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined'; // Import MUI icon
+import FranceMap from '../components/FranceMap';
 
 const SideBarDash = () => {
   return (
     <div className="sidebar">
-      <h2 className="sidebar-title">Dashboard</h2>
       <ul className="sidebar-list">
         <li className="sidebar-item">
-          <a href="#home" className="sidebar-link"><strong>Analyse</strong></a>
+          <FranceMap />
+        </li>
+        <li className="sidebar-item">
+          <a href="#section-analyses" className="sidebar-link"><strong>Analyses</strong></a>
+        </li>
+        <li className="sidebar-item">
+          <a href="#section-relations-causales" className="sidebar-link"><strong>Relations Causales</strong></a>
+        </li>
+        <li className="sidebar-item">
+          <a href="#section-predictions" className="sidebar-link"><strong>Prédictions</strong></a>
+        </li>
+        <li className="sidebar-item">
+          <p ><strong>Files</strong></p>
           <div className="dropdown">
             <ul className="dropdown-list">
               <li><a href="#doc1" className="dropdown-item">Doc1</a></li>
@@ -23,9 +35,6 @@ const SideBarDash = () => {
               Upload Document
             </button>
           </div>
-        </li>
-        <li className="sidebar-item">
-          <a href="#about" className="sidebar-link"><strong>Cause-Prédictions</strong></a>
         </li>
       </ul>
     </div>
