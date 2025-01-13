@@ -4,7 +4,7 @@ import NavBar from '../components/NavBar';
 import SideBarDash from '../components/SideBarDash';
 import "../styles/DashboardPage.css";
 import ChartDashboard from '../components/ChartDashboard';
-import FranceMap from '../components/FranceMap';
+import ChatSidebar from '../components/ChatSidebar';
 
 function DashboardPage() {      
     return (
@@ -13,15 +13,18 @@ function DashboardPage() {
             <div className="dashboard-layout">
                 <SideBarDash />
                 <div className="content">
-                    <div>
-                        <h1>France</h1>
-                        <FranceMap />
-                    </div>
-                    <div>
-                        <h1>Graphiques</h1>
+                    <div id="section-analyses">
+                        <h1>Analyses</h1>
                         <ChartDashboard />
                     </div>
+                    <div id="section-relations-causales">
+                        <h1>Relations Causales</h1>
+                    </div>
+                    <div id="section-predictions">
+                        <h1>Prédictions</h1>
+                    </div>
                 </div>
+                <ChatSidebar />
             </div>
         </div>
     );
