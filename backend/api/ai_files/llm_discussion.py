@@ -11,12 +11,12 @@ client = Mistral(api_key=api_key)
 
 
 def reponse_llm(messages):
-    chat_response = client.chat.complete(
-            model=model,
-            messages=messages,
-        )
+    #chat_response = client.chat.complete(
+    #        model=model,
+    #        messages=messages,
+    #    )
     # Récupère et process les outfits donnés par le LLM
-    rep =  chat_response.choices[0].message.content
-    #rep = messages[-1]["content"].upper()
-    rep = convert_to_markdown(rep)
+    #rep =  chat_response.choices[0].message.content
+    rep = messages[-1]["content"].upper()
+    #rep = convert_to_markdown(rep)
     return {"role": "assistant", "content": rep}

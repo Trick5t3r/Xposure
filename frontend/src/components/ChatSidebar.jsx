@@ -1,32 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useRef, forwardRef, useImperativeHandle } from "react";
 import { Box, TextField, IconButton, List, ListItem, ListItemText, Typography } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import ChatIcon from "@mui/icons-material/Chat";
 import CloseIcon from "@mui/icons-material/Close";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 
-
-const ChatSidebar = () => {
+// Composant ChatSidebar
+const ChatSidebar = forwardRef(({handleSendMessage, handleUploadFile}, ref) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [uploadedFiles, setUploadedFiles] = useState([]); // Liste des fichiers uploadés
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleSendMessage = () => {
-    if (input.trim() !== "") {
-      setMessages([...messages, { text: input, sender: "user" }]);
-      setInput("");
-      setTimeout(() => {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { text: "This is a response from ChatGPT-style bot.", sender: "bot" },
-        ]);
-      }, 1000);
+  // Expose la méthode setMessages au parent
+  useImperativeHandle(ref, () => ({
+    setMessages: (newMessages) => {
+      if (typeof newMessages === "function") {
+        setMessages((prevMessages) => newMessages(prevMessages));
+      } else {
+        setMessages(newMessages || []); // Ensure newMessages defaults to an empty array
+      }
+    },
+  }));
+
+  const handleSend = () => {
+    if (input.trim() !== "" || uploadedFiles.length > 0) {
+      handleSendMessage({ message: input, files: uploadedFiles }); // Envoie le message et les fichiers
+      setInput(""); // Efface le champ d'entrée
     }
   };
 
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      handleSendMessage();
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSend(); // Envoie le message lorsqu'on appuie sur Entrée
     }
   };
 
@@ -57,7 +64,7 @@ const ChatSidebar = () => {
           color: "white",
         }}
       >
-        <Typography variant="h6" sx={{ display: isOpen ? "block" : "none"}}>
+        <Typography variant="h6" sx={{ display: isOpen ? "block" : "none" }}>
           Chat
         </Typography>
         <IconButton onClick={() => setIsOpen(!isOpen)} color="inherit">
@@ -67,17 +74,19 @@ const ChatSidebar = () => {
 
       {isOpen && (
         <>
-          <Box sx={{ flex: 1, overflowY: "auto", padding: "10px" }}>
+          <Box
+            sx={{ flex: 1, overflowY: "auto", padding: "10px" }}
+          >
             <List>
               {messages.map((message, index) => (
                 <ListItem
                   key={index}
                   sx={{
-                    justifyContent: message.sender === "user" ? "flex-end" : "flex-start",
+                    justifyContent: message.role === "user" ? "flex-end" : "flex-start",
                     alignItems: "flex-start",
                   }}
                 >
-                  {message.sender === "bot" && (
+                  {message.role === "assistant" && (
                     <SmartToyIcon
                       sx={{
                         marginRight: "10px",
@@ -88,32 +97,31 @@ const ChatSidebar = () => {
                   <ListItemText
                     sx={{
                       maxWidth: "70%",
-                      backgroundColor: message.sender === "user" ? "#26d8d8e3" : "#ddd",
-                      color: message.sender === "user" ? "white" : "black",
+                      backgroundColor: message.role === "user" ? "#26d8d8e3" : "#ddd",
+                      color: message.role === "user" ? "white" : "black",
                       borderRadius: "10px",
                       padding: "10px",
                     }}
-                    primary={message.text}
+                    primary={message.content}
                   />
                 </ListItem>
               ))}
             </List>
           </Box>
 
-          <Box sx={{ padding: "10px", borderTop: "0px solid #ddd" }}>
+          <Box sx={{ padding: "10px", borderTop: "1px solid #ddd" }}>
             <TextField
               fullWidth
               variant="outlined"
               size="small"
-              color = "black"
               placeholder="Type a message..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
               InputProps={{
                 endAdornment: (
-                  <IconButton onClick={handleSendMessage}>
-                    <SendIcon color="#26d8d8e3" />
+                  <IconButton onClick={handleSend}>
+                    <SendIcon sx={{ color: "#26d8d8e3" }} />
                   </IconButton>
                 ),
               }}
@@ -123,6 +131,6 @@ const ChatSidebar = () => {
       )}
     </Box>
   );
-};
+});
 
 export default ChatSidebar;
