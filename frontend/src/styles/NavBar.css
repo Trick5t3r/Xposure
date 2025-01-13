@@ -52,6 +52,14 @@ src: url(../fonts/RubikVinyl-Regular.ttf);
     background: linear-gradient(139deg, #26d8d8 0%, #116d75 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    transition: all 0.1s ease-in-out;
+}
+
+.nav-bar-logo:hover {
+    transform: scale(1.01);
+}
+.nav-bar-logo:active {
+    transform: scale(0.99);
 }
 
 .nav-bar-p {
@@ -61,12 +69,23 @@ src: url(../fonts/RubikVinyl-Regular.ttf);
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 
 .nav-bar-p p {
     margin: 0 40px;
     position: relative;
 }
+
+.nav-bar a {
+    text-decoration: none;
+    color: var(--text);
+}
+
+.nav-bar a:hover {
+    color: var(--secondary);
+}
+
 .nav-bar-p p::after {
     position: absolute;
     content: "";

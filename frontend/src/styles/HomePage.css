@@ -199,6 +199,7 @@
   text-align: center;
   margin: -1px -1px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
 }
 
 .home-about-us-card:hover .home-about-us-card-container {
@@ -218,6 +219,19 @@
   margin: 0;
   padding: 0;
   line-height: 1;
+}
+
+.home-about-us-card-container h4 {
+  font-family: "font-reg", sans-serif;
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  color: var(--secondary);
+  font-weight: normal;
+}
+
+.home-role {
+  font-style: italic;
+  letter-spacing: 2px;
 }
 
 .separator {
