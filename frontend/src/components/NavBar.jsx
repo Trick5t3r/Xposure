@@ -123,7 +123,7 @@ function NavBar() {
                 } else if (item.name === "About us") {
                     return <p key={index} onClick={handleScroll}>{item.name}</p>
                 } else {
-                    return <p key={index}><a href="https://github.com/Trick5t3r/Xposure" target="_blank" rel="noopener noreferrer">{item.name}</a></p>
+                    return <p key={index} onClick={() => window.open("https://github.com/Trick5t3r/Xposure", "_blank")}>{item.name}</p>
                 }
             })}
         </div>

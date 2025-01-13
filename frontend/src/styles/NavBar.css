@@ -77,15 +77,6 @@ src: url(../fonts/RubikVinyl-Regular.ttf);
     position: relative;
 }
 
-.nav-bar a {
-    text-decoration: none;
-    color: var(--text);
-}
-
-.nav-bar a:hover {
-    color: var(--secondary);
-}
-
 .nav-bar-p p::after {
     position: absolute;
     content: "";
