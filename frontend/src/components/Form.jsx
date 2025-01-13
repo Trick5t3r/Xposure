@@ -1,107 +1,93 @@
-import { useState } from "react";
+import {useState} from "react";
 import api from "../api";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  TextField,
-  Typography,
-} from "@mui/material";
+import "../styles/Form.css";
+import LoadingIndicator from "./LoadingIndicator";
 
-function Form({ route, method }) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+function Form({route, method}) {
+    const CompanyTitle = "Xposure";
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const navigate = useNavigate();
+    const name = method === "login" ? "Login" : "Create An Account";
+    const buttonText = method === "login" ? "Login" : "Sign Up";
 
-  const name = method === "login" ? "Login" : "Register";
-
-  const handleSubmit = async (e) => {
-    setLoading(true);
-    e.preventDefault();
-
-    try {
-      const res = await api.post(route, { username, password });
-      if (method === "login") {
-        localStorage.setItem(ACCESS_TOKEN, res.data.access);
-        localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-        navigate("/dashboard");
-      } else {
-        navigate("/login");
-      }
-    } catch (error) {
-      if (error.response) {
-        alert(`Error: ${error.response.status} - ${error.response.data.detail}`);
-      } else if (error.request) {
-        alert("No response from server. Please check your network or server configuration.");
-      } else {
-        alert(`Unexpected error: ${error.message}`);
-      }
-    } finally {
-      setLoading(false);
+    const togglePassword = () => {
+        setPasswordVisible(!passwordVisible);
     }
-  };
 
-  return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit}
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 2,
-        p: 3,
-        maxWidth: 400,
-        margin: "auto",
-        mt: 5,
-        boxShadow: 3,
-        borderRadius: 2,
-        bgcolor: "background.paper",
-      }}
-    >
-      <Typography variant="h4" component="h1" gutterBottom>
-        {name}
-      </Typography>
+    const handleNavigation = (e) => {
+        e.preventDefault();
+        if (method === "login") navigate("/register");
+        else navigate("/login");
+      };
 
-      <TextField
-        label="Username"
-        variant="outlined"
-        fullWidth
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        required
-      />
+    const handleSubmit = async (e) => {
+        setLoading(true);
+        e.preventDefault();
 
-      <TextField
-        label="Password"
-        type="password"
-        variant="outlined"
-        fullWidth
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
+        try {
+            const res = await api.post(route, { username, password});
+            if (method === "login") {
+                localStorage.setItem(ACCESS_TOKEN, res.data.access);
+                localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+                navigate("/");
+            } else {
+                navigate("/login");
+            }
+        } catch (error) {
+            console.log("Ah merde !")
+            alert(error);
+        } finally {
+            setLoading(false);
+        }
+    }
 
-      {loading && <CircularProgress />}
-
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        fullWidth
-        disabled={loading}
-      >
-        {name}
-      </Button>
-
-      {method === "login" && (
-        <Button variant="text" color="secondary" onClick={() => navigate("/register")}>Register</Button>
-      )}
-    </Box>
-  );
+    return <div className="form-page">
+                <div className="form-wrapper">
+                        <div className="form-header"><span className="form-logo" onClick={() => navigate("/")}>{CompanyTitle}</span></div>
+                        <form onSubmit={handleSubmit} className="form-container">
+                        <h1>{name}</h1>
+                        <p>Username</p>
+                        <input 
+                            className="form-input"
+                            type="text"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            placeholder="Kewij" 
+                        />
+                        <p>Password</p>
+                        <div className="form-div-input">
+                        <input 
+                            className="password-input"
+                            type={passwordVisible ? "text" : "password"}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="Choose your password" 
+                        />
+                        <span
+                            className="toggle-password"
+                            onClick={togglePassword}
+                            role="button"
+                            aria-label="Toggle password visibility"
+                        >{passwordVisible ? "🙈" : "👁️"}</span>
+                        </div>
+                        {loading && <LoadingIndicator />}
+                        <button className="form-button" type="submit">
+                            {buttonText}
+                        </button>
+                        <div className="end-wrapper">
+                            <h2 className="end-sentence">{method === "login" ? "Want to create an account ?" : "Already registered ?"}</h2>
+                            <button className="navigate" onClick={handleNavigation}>{method === "login" ? "Sign Up" : "Login"}</button>
+                        </div>
+                    </form>
+            </div>
+        </div>
+    
+    
 }
 
 export default Form;
