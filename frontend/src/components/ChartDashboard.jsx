@@ -35,9 +35,6 @@ const ChartDashboard = () => {
 
   return (
     <Box sx={{ padding: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Dashboard de Graphiques
-      </Typography>
       <Grid container spacing={3}>
         {/* 4 Pie Charts */}
         {[1, 2, 3, 4].map((_, index) => (
