@@ -76,6 +76,9 @@ Et voilà, le serveur est en marche !
 
 ---
 
+## Connexion en tant que superuser
+Utilisez le `username_superuser` et le `MDP_superuser` pour vous connecter en tant que superuser (dorit d'accès à l'url `/admin`)
+
 ## Commandes supplémentaires
 
 - **Arrêter le serveur** :
