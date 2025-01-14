@@ -96,10 +96,16 @@ Utilisez le `username_superuser` et le `MDP_superuser` pour vous connecter en ta
   docker-compose up -d
   ```
 
+- **Rebuild un conteneur précisément** :
+  ```bash
+  docker-compose up -d
+  ```
+
 - **Lister les conteneurs actifs** :
   ```bash
-  docker ps
+  docker-compose up --build conteneur
   ```
+  Avec `conteneur={nginx/backend/frontend}`
 
   - **Conection à un conteneur Docker** :
   ```bash
