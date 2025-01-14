@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import ChatSession
 from .models import BaseFile, PDFFile, ImageFile, OtherFile
-from .ai_files.llm_discussion import reponse_llm
+from .ai_files.llm_discussion import reponse_llm, interaction_llm
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from rest_polymorphic.serializers import PolymorphicSerializer
@@ -15,7 +15,7 @@ def get_or_create_last_chat_session(user):
     
     # Si aucune session n'existe, en créer une nouvelle
     if not chat_session:
-        chat_session = ChatSession.objects.create(user=user, title=f"Session of {user}", messages=[{ "role": "assistant", "content": "Que puis-je faire pour vous ?" }])
+        chat_session = ChatSession.objects.create(user=user, title=f"Session of {user}", messages=[{ "role": "assistant", "content": "Que puis-je faire pour vous ?" }], datas=[])
     
     return chat_session
 
@@ -48,8 +48,8 @@ class ChatSessionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ChatSession
-        fields = ["id", "title", "user", "messages", "created_at"]
-        read_only_fields = ["id", "user", "created_at"]
+        fields = ["id", "title", "user", "messages", "datas", "created_at"]
+        read_only_fields = ["id", "user", "created_at", "datas"]
 
     def create(self, validated_data):
         # Ajouter l'utilisateur connecté au modèle
@@ -60,7 +60,8 @@ class ChatSessionSerializer(serializers.ModelSerializer):
 class ChatSessionUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatSession
-        fields = ["messages"]
+        fields = ["messages", "datas"]
+        read_only_fields = ["datas"]
 
     def update(self, instance, validated_data):
         # Ajout d'un nouveau message utilisateur
@@ -72,9 +73,7 @@ class ChatSessionUpdateSerializer(serializers.ModelSerializer):
         return instance
     
     def treat_the_message(self, instance, new_messages):
-        rep = reponse_llm(instance.messages)
-        if rep:
-            instance.messages.append(rep)
+        interaction_llm(instance)
    
 
 
