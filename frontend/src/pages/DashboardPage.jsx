@@ -8,6 +8,7 @@ import ChatSidebar from '../components/ChatSidebar';
 
 function DashboardPage() {
     const chatBoxRef = useRef(null);
+    const chartDashboardRef = useRef(null);
 
     useEffect(() => {
         if (chatBoxRef.current) {
@@ -16,6 +17,9 @@ function DashboardPage() {
                 .then((data) => {
                     if (chatBoxRef.current) {
                         chatBoxRef.current.setMessages(data.messages);
+                    }
+                    if(chartDashboardRef.current){
+                        chartDashboardRef.current.setDatas(data.datas)
                     }
                 })
                 .catch((err) => alert("Error loading session messages: " + err));
@@ -43,6 +47,9 @@ function DashboardPage() {
             .then((data) => {
                 if (chatBoxRef.current) {
                     chatBoxRef.current.setMessages(data.messages);
+                }
+                if(chartDashboardRef.current){
+                    chartDashboardRef.current.setDatas(data.datas)
                 }
             })
             .catch((err) => {
@@ -95,7 +102,7 @@ function DashboardPage() {
                 <div className="content">
                     <div id="section-analyses">
                         <h1>Analyses</h1>
-                        <ChartDashboard />
+                        <ChartDashboard ref={chartDashboardRef}/>
                     </div>
                     <div id="section-relations-causales">
                         <h1>Relations Causales</h1>

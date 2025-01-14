@@ -1,5 +1,6 @@
 import os
 from .llm_tools import convert_to_markdown
+from .llm_function_calling import llm_pipeline
 from mistralai import Mistral
 from dotenv import load_dotenv
 
@@ -20,3 +21,15 @@ def reponse_llm(messages):
     rep = messages[-1]["content"].upper()
     #rep = convert_to_markdown(rep)
     return {"role": "assistant", "content": rep}
+
+def interaction_llm(instance):
+    #chat_response = client.chat.complete(
+    #        model=model,
+    #        messages=messages,
+    #    )
+    # Récupère et process les outfits donnés par le LLM
+    #rep =  chat_response.choices[0].message.content
+    rep = instance.messages[-1]["content"].upper()
+    #rep = convert_to_markdown(rep)
+    instance.messages.append({"role": "assistant", "content": rep})
+    #llm_pipeline(instance)

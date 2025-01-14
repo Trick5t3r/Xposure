@@ -14,6 +14,7 @@ class ChatSession(models.Model):
     title = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sessions")
     messages = models.JSONField(default=list) 
+    datas = models.JSONField(default=list)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

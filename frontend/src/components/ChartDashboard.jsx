@@ -1,65 +1,78 @@
-import React from 'react';
-import { Pie, Line } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement } from 'chart.js';
-import { Box, Grid, Paper, Typography } from '@mui/material';
+import React, { useState, forwardRef, useImperativeHandle } from "react";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement } from "chart.js";
+import { Box, Grid, Paper, Typography, IconButton, Divider } from "@mui/material";
+import { PieChart, LineChart } from "../components/ChartComponents";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 // Register required Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement);
 
-const ChartDashboard = () => {
-  // Generate random data for Pie Charts
-  const generatePieData = () => ({
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple'],
-    datasets: [
-      {
-        data: Array.from({ length: 5 }, () => Math.floor(Math.random() * 100)),
-        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
-        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
-      },
-    ],
-  });
+const ChartDashboard = forwardRef((props, ref) => {
+  const [datas, setDatas] = useState([]);
 
-  // Generate random data for Line Chart
-  const generateLineData = () => ({
-    labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-    datasets: [
-      {
-        label: 'Dataset 1',
-        data: Array.from({ length: 6 }, () => Math.floor(Math.random() * 100)),
-        borderColor: '#36A2EB',
-        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-        tension: 0.4,
+  useImperativeHandle(ref, () => ({
+    setDatas: (newDatas) => {
+        if (typeof newMessages === "function") {
+          setDatas((prevDatas) => newMessages(newDatas));
+        } else {
+          setDatas(newDatas || []); // Ensure newMessages defaults to an empty array
+        }
       },
-    ],
-  });
+    }));
+
+  // Separate pie charts and line charts
+  const pieCharts = datas.filter(data => data.chartType === "pie");
+  const lineCharts = datas.filter(data => data.chartType === "line");
 
   return (
-    <Box sx={{ padding: 4 }}>
+    <Box sx={{ padding: 4, backgroundColor: "#f4f6f8", minHeight: "100vh" }}>
       <Grid container spacing={3}>
-        {/* 4 Pie Charts */}
-        {[1, 2, 3, 4].map((_, index) => (
-          <Grid item xs={12} sm={6} md={3} key={index}>
-            <Paper elevation={3} sx={{ padding: 2 }}>
+        {/* Render pie charts together */}
+        {pieCharts.length > 0 &&
+          pieCharts.map((data, index) => (
+            <Grid item xs={12} sm={6} md={3} key={index}>
+              <Paper elevation={3} sx={{ padding: 2 }}>
+                <Typography variant="h6" align="center" gutterBottom>
+                  Chart {index + 1}
+                </Typography>
+                <Box>
+                  {/* Render chart based on chartType */}
+                  {data.chartType === "pie" && <PieChart chartData={data} />}
+                </Box>
+              </Paper>
+            </Grid>
+          ))}
+  
+        {/* Render line charts together */}
+        {lineCharts.length > 0 && (
+          <Grid item xs={12}>
+            <Paper elevation={4} sx={{ padding: 3 }}>
               <Typography variant="h6" align="center" gutterBottom>
-                Camembert {index + 1}
+                Line Charts
               </Typography>
-              <Pie data={generatePieData()} />
+              <Divider sx={{ marginY: 2 }} />
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  flexWrap: "wrap",
+                  gap: 3,
+                }}
+              >
+                {lineCharts.map((data, index) => (
+                  <Box key={index} sx={{ width: "50%" }}>
+                    <LineChart chartData={data} />
+                  </Box>
+                ))}
+              </Box>
             </Paper>
           </Grid>
-        ))}
-
-        {/* Line Chart */}
-        <Grid item xs={12}>
-          <Paper elevation={3} sx={{ padding: 2 }}>
-            <Typography variant="h6" align="center" gutterBottom>
-              Graphique de Courbes
-            </Typography>
-            <Line data={generateLineData()} />
-          </Paper>
-        </Grid>
+        )}
       </Grid>
     </Box>
   );
-};
+
+});
+  
 
 export default ChartDashboard;
