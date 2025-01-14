@@ -3,6 +3,7 @@ import json
 from mistralai import Mistral
 from dotenv import load_dotenv
 import functools
+import copy
 
 # Configuration Mistral
 model = "mistral-small-latest"
@@ -15,7 +16,7 @@ tools = [
         "type": "function",
         "function": {
             "name": "update_first_label",
-            "description": "Update the first label in the datas structure using an external instance.",
+            "description": "Update the first label.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -31,9 +32,7 @@ tools = [
 ]
 
 def update_first_label(label, instance=None):
-    datas = json.loads(instance.datas)
-    datas[0]["data"]["labels"][0] = label
-    #instance.datas = datas
+    instance.datas[0]["data"]["labels"][0] = label
     return f"Update first label with {label}"
 
 
@@ -72,18 +71,23 @@ def llm_pipeline(instance):
     Pipeline principale pour traiter le contexte et générer une réponse.
     """
     # Étape 1: Préparation des messages pour Mistral
-    messages = instance.messages
+    messages = copy.copy(instance.messages)
 
     # Étape 2: Appel au modèle Mistral pour déterminer la fonction et les arguments
     response = client.chat.complete(
         model=model,
         messages=messages,
         tools=tools,
-        tool_choice="any",
+        tool_choice="auto",
     )
 
+    if response.choices[0].message.tool_calls is None:
+        instance.messages.append({"role": "assistant", "content": response.choices[0].message.content})
+        return
     try:
+        messages.append(response.choices[0].message)
         tool_call = response.choices[0].message.tool_calls[0]
+        print(tool_call)
         function_name = tool_call.function.name
         function_params = json.loads(tool_call.function.arguments)
         print("\nfunction_name: ", function_name, "\nfunction_params: ", function_params)
@@ -107,4 +111,4 @@ def llm_pipeline(instance):
         messages=messages
     )
 
-    instance.messages.append({"role": "assistant", "content": rep})
+    instance.messages.append({"role": "assistant", "content": rep.choices[0].message.content})

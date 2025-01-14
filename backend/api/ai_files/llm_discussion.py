@@ -29,7 +29,7 @@ def interaction_llm(instance):
     #    )
     # Récupère et process les outfits donnés par le LLM
     #rep =  chat_response.choices[0].message.content
-    rep = instance.messages[-1]["content"].upper()
+    #rep = instance.messages[-1]["content"].upper()
     #rep = convert_to_markdown(rep)
-    instance.messages.append({"role": "assistant", "content": rep})
-    #llm_pipeline(instance)
+    #instance.messages.append({"role": "assistant", "content": rep})
+    llm_pipeline(instance)
