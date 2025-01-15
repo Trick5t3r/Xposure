@@ -1,22 +1,37 @@
+@font-face {
+  font-family: "font-reg";
+  src: url(../fonts/OldschoolGrotesk-NormalBook.otf);
+}
+
+@font-face {
+  font-family: "font-bold";
+  src: url(../fonts/OldschoolGrotesk-NormalMedium.otf);
+}
+
+@font-face {
+  font-family: "font-title";
+  src: url(../fonts/RubikVinyl-Regular.ttf);
+}
+
+:root {
+  --secondary: #26d8d8e3;
+  --primary: #116d75;
+  --background: #141414;
+  --black: #000;
+  --text: #e4e4e4;
+}
+
 .sidebar {
   width: 250px;
   height: 100vh;
-  background-color: #b4b4b4; /* Fond de la sidebar */
-  color: #ecf0f1;
+  background-color: var(--background); /* Fond de la sidebar */
+  color: var(--text);
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   position: fixed;
-  top: 92px;
   left: 0;
   display: flex;
   flex-direction: column;
-}
-
-.sidebar-title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-align: center;
 }
 
 .sidebar-list {
@@ -24,16 +39,49 @@
   padding: 0;
   margin: 0;
   flex-grow: 1;
+  position: relative;
 }
 
+/* Logo */
+.sidebar-item-logo {
+  font-family: "font-title", sans-serif;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.69rem;
+  user-select: none;
+  cursor: pointer;
+  background: linear-gradient(139deg, #26d8d8 0%, #116d75 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.1s ease-in-out;
+}
+
+.sidebar-item-logo:hover {
+  transform: scale(1.01);
+}
+
+.sidebar-item-logo:active {
+  transform: scale(0.99);
+}
+
+/* France Map */
+
+/* Sidebar Links */
 .sidebar-item {
-  margin: 0px 0;
+  margin-top: 10px;
+  vertical-align: middle;
+  display: inline-block;
+  line-height: 1;
 }
 
+.sidebar-item.selected .sidebar-link {
+  color: var(--primary);
+}
 .sidebar-link {
   text-decoration: none;
-  color: #ecf0f1;
-  font-size: 1.2rem;
+  font-family: "font-reg", sans-serif;
+  color: var(--text);
+  font-size: 1rem;
   display: block;
   padding: 10px 15px;
   border-radius: 4px;
@@ -41,14 +89,46 @@
 }
 
 .sidebar-link:hover {
-  background-color: #888888;
+  color: var(--primary);
 }
 
-.sidebar-link:active {
-  background-color: #1abc9c;
+.item-icon {
+  vertical-align: middle;
+  display: inline-flex;
+  align-items: center;
+  margin-right: 10px;
+  transform: translateY(-2px);
 }
 
-/* Dropdown styles */
+/* Logout Button */
+.sidebar-logout {
+  font-family: "font-reg", sans-serif;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 15px;
+  border: 1px solid var(--text);
+  border-radius: 14px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.1s ease-in-out;
+  min-width: 125px;
+}
+
+.sidebar-logout:hover {
+  background-color: var(--text);
+  color: var(--background);
+}
+
+.sidebar-logout:active {
+  transform: scale(0.97) translateX(-50%);
+}
+
+/* Sidebar File Upload */
+.sidebar-item-files {
+  display: none;
+}
 .dropdown {
   position: relative;
   margin-top: 0px;

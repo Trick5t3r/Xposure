@@ -96,7 +96,6 @@ function DashboardPage() {
 
     return (
         <div className="dashboard-page">
-            <NavBar />
             <div className="dashboard-layout">
                 <SideBarDash />
                 <div className="content">

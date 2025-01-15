@@ -38,45 +38,17 @@ const ChatSidebar = forwardRef(({handleSendMessage, handleUploadFile}, ref) => {
   };
 
   return (
-    <Box
-      sx={{
-        position: "fixed",
-        right: 0,
-        top: "92px",
-        bottom: 0,
-        width: isOpen ? "300px" : "50px",
-        backgroundColor: "#f5f5f5",
-        borderLeft: "1px solid #ddd",
-        transition: "width 0.3s ease",
-        display: "flex",
-        flexDirection: "column",
-        boxShadow: "-2px 0 5px rgba(0, 0, 0, 0.1)",
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "10px",
-          borderBottom: "1px solid #ddd",
-          backgroundColor: "#26d8d8e3",
-          color: "white",
-        }}
-      >
-        <Typography variant="h6" sx={{ display: isOpen ? "block" : "none" }}>
-          Chat
-        </Typography>
+    <div className="chat-sidebar">
+      <div className="chat-sidebar-header">
+        <h6 style={{ display: isOpen ? "block" : "none" }}>Chat</h6>
         <IconButton onClick={() => setIsOpen(!isOpen)} color="inherit">
           {isOpen ? <CloseIcon /> : <ChatIcon />}
         </IconButton>
-      </Box>
+      </div>
 
       {isOpen && (
         <>
-          <Box
-            sx={{ flex: 1, overflowY: "auto", padding: "10px" }}
-          >
+          <div className="chat-sidebar-messages">
             <List>
               {messages.map((message, index) => (
                 <ListItem
@@ -107,29 +79,30 @@ const ChatSidebar = forwardRef(({handleSendMessage, handleUploadFile}, ref) => {
                 </ListItem>
               ))}
             </List>
-          </Box>
+          </div>
 
-          <Box sx={{ padding: "10px", borderTop: "1px solid #ddd" }}>
+          <div className="chat-sidebar-input">
             <TextField
-              fullWidth
-              variant="outlined"
-              size="small"
-              placeholder="Type a message..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyPress={handleKeyPress}
-              InputProps={{
-                endAdornment: (
-                  <IconButton onClick={handleSend}>
-                    <SendIcon sx={{ color: "#26d8d8e3" }} />
-                  </IconButton>
-                ),
-              }}
-            />
-          </Box>
+                className="chat-sidebar-input-field"
+                fullWidth
+                variant="outlined"
+                size="small"
+                placeholder="Type a message..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyPress={handleKeyPress}
+                InputProps={{
+                  endAdornment: (
+                    <IconButton onClick={handleSend}>
+                      <SendIcon sx={{ color: "#26d8d8e3" }} />
+                    </IconButton>
+                  ),
+                }}
+              />
+          </div>
         </>
       )}
-    </Box>
+    </div>
   );
 });
 

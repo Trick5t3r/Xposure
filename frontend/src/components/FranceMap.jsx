@@ -1,19 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import * as d3 from "d3";
+import "../styles/FranceMap.css";
 
 const FranceMap = () => {
   const svgRef = useRef();
   const [selectedRegion, setSelectedRegion] = useState(null);
+  const [selectedRegionName, setSelectedRegionName] = useState(null);
+  const [isRotated, setIsRotated] = useState(false);
   const regionsGeoJsonUrl = "/france/regions.geojson";
   const departmentsGeoJsonUrl = "/france/departements.geojson";
 
   const handleRegionClick = (regionName, regionCode) => {
     setSelectedRegion(regionCode);
-    if (regionCode === "all") {
-      alert("All regions");
-    } else {
-      alert(`Région : ${regionName}, Code : ${regionCode}`);
-    }
+    setSelectedRegionName(regionName);
   };
 
   useEffect(() => {
@@ -54,7 +54,7 @@ const FranceMap = () => {
         .enter()
         .append("path")
         .attr("d", path)
-        .attr("fill", d => (d.properties.code === selectedRegion ? "rgba(254, 254, 0, 0.5)" : "rgba(0, 0, 0, 0.01)"))
+        .attr("fill", d => (d.properties.code === selectedRegion ? "#26d8d8" : "rgba(0, 0, 0, 0.01)"))
         .attr("stroke", "none")
         .attr("stroke-width", 1.5)
         .attr("stroke-dasharray", "4,2")
@@ -79,23 +79,22 @@ const FranceMap = () => {
     loadGeoJson();
   }, [selectedRegion]);
 
+  if (isRotated) {
+    setTimeout(() => {
+      setIsRotated(false);
+    }, 100);
+    
+  }
+
   return (
-    <div>
-      <svg ref={svgRef} width={250} height={175}></svg>
-      <button
-        style={{
-          marginTop: "0px",
-          padding: "6px 15px",
-          backgroundColor: "#007BFF",
-          color: "white",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-        }}
-        onClick={() => handleRegionClick("All", "all")}
+    <div className="france-map-container">
+      <svg className="france-map" ref={svgRef}></svg>
+      <div
+        className="region-button"
       >
-        All
-      </button>
+        <p>{selectedRegionName ? selectedRegionName : "All Regions"}</p>
+        <div className="reset-button"><RestartAltIcon className={`reset-icon ${isRotated ? "rotate" : ""}`} onClick={() => {handleRegionClick("All Regions", "all"); setIsRotated(true)}} /></div>
+      </div>
     </div>
   );
 };
