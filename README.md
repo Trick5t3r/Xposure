@@ -76,6 +76,9 @@ Et voilà, le serveur est en marche !
 
 ---
 
+## Connexion en tant que superuser
+Utilisez le `username_superuser` et le `MDP_superuser` pour vous connecter en tant que superuser (le superuser a le droit d'accès à l'url `/admin`)
+
 ## Commandes supplémentaires
 
 - **Arrêter le serveur** :
@@ -93,10 +96,22 @@ Et voilà, le serveur est en marche !
   docker-compose up -d
   ```
 
+- **Rebuild un conteneur précisément** :
+  ```bash
+  docker-compose up -d
+  ```
+
 - **Lister les conteneurs actifs** :
   ```bash
-  docker ps
+  docker-compose up --build conteneur
   ```
+  Avec `conteneur={nginx/backend/frontend}`
+
+  - **Conection à un conteneur Docker** :
+  ```bash
+  docker exec -it conteneur /bin/sh
+  ```
+  Avec `conteneur={nginx/backend/frontend}`
 
 - **Rebuild complet avec les fichiers requis Python** (pour Linux) :
   ```bash
@@ -108,10 +123,6 @@ Et voilà, le serveur est en marche !
   ./manage.sh start/stop
   ```
 
-- **Conection à un conteneur Docker** :
-  ```bash
-  docker exec -it frontend /bin/sh
-  ```
 ---
 
 ## Objectifs du projet

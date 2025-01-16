@@ -1,0 +1,87 @@
+@font-face {
+    font-family: "font-reg";
+    src: url(../fonts/OldschoolGrotesk-NormalBook.otf);
+}
+
+@font-face {
+font-family: "font-bold";
+src: url(../fonts/OldschoolGrotesk-NormalMedium.otf);
+}
+
+@font-face {
+font-family: "font-title";
+src: url(../fonts/RubikVinyl-Regular.ttf);
+}
+
+:root {
+--text: #e4e4e4;
+--background: #141414;
+--secondary: #26d8d8e3;
+--primary: #116d75;
+}
+
+.chat-sidebar {
+    position: absolute;
+    top: 85%;
+    left: calc(100% - 50px);
+    transform: translate(-100%, -100%);
+    width: 300px;
+    background-color: var(--background);
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
+    transition: all 0.3s ease-in-out;
+    opacity: 1;
+}
+.chat-sidebar.closed {
+    opacity: 0; /* Rendre l'élément invisible */
+    visibility: hidden; /* Supprimer l'interactivité */
+    transform: translate(calc(-100% + 5%), calc(-100% + 5%)); /* Déplace légèrement l'élément pour un effet de glissement */
+    pointer-events: none; /* Désactiver les clics */
+}
+
+.chat-sidebar-header {
+    background: linear-gradient(139deg, #116d75 0%, #26d8d8 100%);
+    border-top-left-radius: 10px; /* Arrondi en haut à gauche */
+    border-top-right-radius: 10px; /* Arrondi en haut à droite */
+}
+
+.chat-sidebar-header h6 {
+    font-family: "font-bold", sans-serif;
+    color: var(--background);
+    font-size: 1.3rem;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    padding-top: 23px;
+    margin: 0;
+    letter-spacing: 2px;
+    font-weight: normal;
+}
+
+.chat-sidebar-messages {
+    overflow-y: auto;
+    flex: 1;
+    max-height: 55vh;
+}
+
+.chat-sidebar-input-field {
+    color: var(--text);
+}
+
+.chat-sidebar-button {
+    position: absolute;
+    bottom: 2.5%;
+    right: 70px;
+    background-color: var(--background);
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+    transition: all 0.1s ease-in-out;
+}
+
+.chat-sidebar-button:hover {
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 1);
+}
