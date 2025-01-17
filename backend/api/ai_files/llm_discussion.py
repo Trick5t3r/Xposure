@@ -22,6 +22,10 @@ def reponse_llm(messages):
     #rep = convert_to_markdown(rep)
     return {"role": "assistant", "content": rep}
 
+import logging
+
+logger = logging.getLogger('daphne')
+
 def interaction_llm(instance):
     #chat_response = client.chat.complete(
     #        model=model,
@@ -32,4 +36,5 @@ def interaction_llm(instance):
     rep = instance.messages[-1]["content"].upper()
     #rep = convert_to_markdown(rep)
     instance.messages.append({"role": "assistant", "content": rep})
+    logger.debug(f"Instance: {instance}")
     #llm_pipeline(instance)
