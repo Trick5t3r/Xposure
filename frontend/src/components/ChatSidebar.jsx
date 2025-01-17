@@ -1,4 +1,4 @@
-import React, { useState, useRef, forwardRef, useImperativeHandle } from "react";
+import React, { useState, useRef, forwardRef, useImperativeHandle, useEffect } from "react";
 import { Box, TextField, IconButton, List, ListItem, ListItemText, Typography } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import ChatIcon from "@mui/icons-material/Chat";
@@ -6,6 +6,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import "../styles/ChatSidebar.css";
 import { color } from "d3";
+import MarkdownRenderer from "./MarkdownRenderer";
 
 // Composant ChatSidebar
 const ChatSidebar = forwardRef(({handleSendMessage, handleUploadFile}, ref) => {
@@ -13,6 +14,7 @@ const ChatSidebar = forwardRef(({handleSendMessage, handleUploadFile}, ref) => {
   const [input, setInput] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]); // Liste des fichiers uploadés
   const [isOpen, setIsOpen] = useState(false);
+  const messagesEndRef = useRef(null); // Ref to track the end of the messages list
 
   // Expose la méthode setMessages au parent
   useImperativeHandle(ref, () => ({
@@ -38,6 +40,13 @@ const ChatSidebar = forwardRef(({handleSendMessage, handleUploadFile}, ref) => {
       handleSend(); // Envoie le message lorsqu'on appuie sur Entrée
     }
   };
+
+  // Scroll to the bottom when messages change
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   return (
     <>
@@ -76,8 +85,11 @@ const ChatSidebar = forwardRef(({handleSendMessage, handleUploadFile}, ref) => {
                 }}
                 primary={message.content}
               />
+              {/* <MarkdownRenderer markdown={message.content} /> */}
             </ListItem>
           ))}
+          {/* Dummy div to help scroll to the bottom */}
+          <div ref={messagesEndRef} />
         </List>
       </div>
 

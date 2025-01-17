@@ -76,6 +76,12 @@ class ChatSessionUpdateSerializer(serializers.ModelSerializer):
         interaction_llm(instance)
    
 
+class ChatSessionUpdateSerializerAsync(serializers.ModelSerializer):
+    class Meta:
+        model = ChatSession
+        fields = ["messages", "datas"]
+        read_only_fields = ["datas"]
+
 
 #### RAG serializers 
 
