@@ -7,10 +7,17 @@ from .serializers import UserSerializer, ChatSessionSerializer, ChatSessionUpdat
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import ChatSession, BaseFile, ImageFile
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
 
 
 # Create your views here.
 #Pour les tokens
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data['user_id'] = self.user.id
+        return data
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
