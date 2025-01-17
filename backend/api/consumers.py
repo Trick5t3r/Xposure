@@ -4,12 +4,13 @@ from asgiref.sync import sync_to_async
 from .models import ChatSession
 from .serializers import (
     ChatSessionSerializer,
-    ChatSessionUpdateSerializer,
+    ChatSessionUpdateSerializerAsync,
     get_or_create_last_chat_session
 )
 
 import asyncio
 import logging
+from .ai_files.llm_async import async_llm_discussion
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -100,22 +101,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 
         # Exemple thinking
-        old_data = await sync_to_async(lambda: ChatSessionSerializer(self.session).data)()
-
-        response_data = {
-            "messages": list(old_data.get("messages", [])),  # Extract "messages" or default to empty list
-            "datas": list(old_data.get("datas", [])) # Add "datas" key with static value
-        }
-        #logging.info(response_data)
-        #logging.info(data['newMessage'])
-        response_data["messages"].extend(data['newMessage'])
-        response_data["messages"].append({"role": "assistant", "content": "Thinking...", "context": {"action": "thinking"}})
-
-        await self.send(text_data=json.dumps({
-            "type": "update_session",
-            "data": response_data
-        }))
-        await asyncio.sleep(2)
+        new_messages = await async_llm_discussion(self, data['newMessage'])
 
         #####
 
@@ -123,7 +109,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 
 
-        serializer = ChatSessionUpdateSerializer(self.session, data={"messages" : data['newMessage']}, partial=True)
+        serializer = ChatSessionUpdateSerializerAsync(self.session, data={"messages" : new_messages}, partial=True)
         if serializer.is_valid():
             await sync_to_async(serializer.save)()
             await sync_to_async(self.session.refresh_from_db)()
