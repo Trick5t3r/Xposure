@@ -2,7 +2,6 @@
 import { useState, useEffect, useRef, forwardRef } from 'react';
 import api from "../api";
 import NavBar from '../components/NavBar';
-import { useState, useEffect, useRef } from 'react';
 import SideBarDash from '../components/SideBarDash';
 import "../styles/DashboardPage.css";
 import ChartDashboard from '../components/ChartDashboard';
