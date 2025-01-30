@@ -5,7 +5,7 @@ import ChatIcon from "@mui/icons-material/Chat";
 import CloseIcon from "@mui/icons-material/Close";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import "../styles/ChatSidebar.css";
-import { color } from "d3";
+import { color, text } from "d3";
 import MarkdownRenderer from "./MarkdownRenderer";
 
 // Composant ChatSidebar
@@ -14,6 +14,11 @@ const ChatSidebar = forwardRef(({handleSendMessage, handleUploadFile}, ref) => {
   const [input, setInput] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]); // Liste des fichiers uploadés
   const [isOpen, setIsOpen] = useState(false);
+  const backgroundColor = "#141414";
+  const textColor = "#e4e4e4";
+  const primaryColor = "#116d75";
+  const secondaryColor = "#26d8d8";
+  const gradientColor = "linear-gradient(139deg, #116d75 0%, #26d8d8 100%)";
   const messagesEndRef = useRef(null); // Ref to track the end of the messages list
 
   // Expose la méthode setMessages au parent
@@ -68,18 +73,16 @@ const ChatSidebar = forwardRef(({handleSendMessage, handleUploadFile}, ref) => {
                 <SmartToyIcon
                   sx={{
                     marginRight: "10px",
-                    color: "#26d8d8",
-                    opacity: 0.8,
+                    color: `${primaryColor}`,
                   }}
                 />
               )}
               <ListItemText
                 sx={{
                   maxWidth: "70%",
-                  background: message.role === "user" ? "linear-gradient(139deg, #116d75 0%, #26d8d8 100%)" : "#141414",
-                  color: message.role === "user" ? "e4e4e4" : "#26d8d8",
-                  border: message.role === "user" ? "none" : "1px solid #26d8d8",
-                  opacity: message.role === "user" ? "1" : "0.8",
+                  background: message.role === "user" ? `${gradientColor}` : `${textColor}`,
+                  color: message.role === "user" ? `${textColor}` : `${primaryColor}`,
+                  border: message.role === "user" ? "none" : `1px solid ${primaryColor}`,
                   borderRadius: "15px",
                   padding: "10px",
                 }}
@@ -111,16 +114,15 @@ const ChatSidebar = forwardRef(({handleSendMessage, handleUploadFile}, ref) => {
               },
               "& .MuiOutlinedInput-root": {
                 borderRadius: "8px", // Exemple : coins arrondis
-                color: "#26d8d8", // Exemple : changer la couleur du texte
-                opacity: 0.8, // Exemple : changer l'opacité du texte
-                backgroundColor: "#141414",
+                color: `${primaryColor}`, // Exemple : changer la couleur du texte
+                backgroundColor: `${textColor}`,
               },
               "& .MuiOutlinedInput-input": {
                 padding: "15px 19px", // Exemple : ajuster le padding
                 outline: "none", // Exemple : enlever le contour
               },
               "& .MuiOutlinedInput-input::placeholder": {
-                color: "#26d8d8", // Change la couleur du placeholder
+                color: `${primaryColor}`, // Change la couleur du placeholder
                 opacity: 0.6, // Change l'opacité du placeholder
               },
             }}
@@ -132,8 +134,8 @@ const ChatSidebar = forwardRef(({handleSendMessage, handleUploadFile}, ref) => {
               endAdornment: (
                 <IconButton onClick={handleSend}>
                   <SendIcon sx={{ 
-                    color: "#141414",
-                    background: "linear-gradient(139deg, #116d75 0%, #26d8d8 100%)",
+                    color: `${textColor}`,
+                    background: `${gradientColor}`,
                     borderRadius: "50%",
                     height: "50px",
                     width: "50px",
@@ -147,7 +149,7 @@ const ChatSidebar = forwardRef(({handleSendMessage, handleUploadFile}, ref) => {
     </div>
     <div className="chat-sidebar-button">
       <IconButton onClick={() => setIsOpen(!isOpen)} sx={{
-        color: "#116d75",
+        color: `${textColor}`,
         }}>
           {isOpen ? <CloseIcon /> : <ChatIcon />}
         </IconButton>

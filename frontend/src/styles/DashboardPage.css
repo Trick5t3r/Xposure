@@ -1,26 +1,115 @@
 /* DashboardPage.css */
+@font-face {
+  font-family: "font-reg";
+  src: url(../fonts/OldschoolGrotesk-NormalBook.otf);
+}
+
+@font-face {
+  font-family: "font-bold";
+  src: url(../fonts/OldschoolGrotesk-NormalMedium.otf);
+}
+
+@font-face {
+  font-family: "font-title";
+  src: url(../fonts/RubikVinyl-Regular.ttf);
+}
+
+:root {
+  --secondary: #26d8d8e3;
+  --primary: #116d75;
+  --background: #141414;
+  --black: #000;
+  --text: #e4e4e4;
+}
 
 .dashboard-page {
     display: flex;
     flex-direction: column;
     height: 100vh;
     overflow: hidden;
-  }
-  
-  .dashboard-layout {
-    display: flex;
-    flex: 1;
-    overflow: hidden;
-    position: relative;
-  }
-  
-  
-  .content {
-    flex: 1;
-    background-color: #ecf0f1;
-    color: black;
-    padding: 20px;
-    margin-left: 250px;
-    overflow-y: auto;
-  }
-  
+}
+
+.dashboard-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.content {
+  flex: 1;
+  background-color: var(--text);
+  color: black;
+  margin-left: 250px;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+.dashboard-content-header {
+  padding: 20px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dashboard-content-header h1 {
+  margin: 0;
+  font-family: "font-bold", sans-serif;
+  font-weight: normal;
+  margin-bottom: -5px;
+}
+
+.dashboard-content-header-right {
+  display: flex;
+  align-items: center;
+  gap: 100px;
+}
+
+.custom-input {
+  padding: 10px 15px;
+  padding-bottom: 8px;
+  font-family: "font-reg", sans-serif;
+  font-size: 1rem;
+  color: var(--text);
+  background-color: var(--background);
+  border: 1px solid var(--background);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 188px;
+}
+
+.custom-input:hover {
+  background-color: var(--text);
+  color: var(--background);
+}
+
+.calendar-icon {
+  margin-bottom: -5px;
+  margin-right: 10px;
+}
+
+.user-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-right: 20px;
+  padding: 10px 15px;
+  border-radius: 10px;
+}
+
+.user-photo {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.user-box p {
+  padding: 0;
+  margin: 0;
+  font-size: 1rem;
+  font-family: "font-reg", sans-serif;
+  margin-bottom: -5px;
+  letter-spacing: 1px;
+}

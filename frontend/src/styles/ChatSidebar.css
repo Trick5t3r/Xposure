@@ -26,7 +26,7 @@ src: url(../fonts/RubikVinyl-Regular.ttf);
     left: calc(100% - 50px);
     transform: translate(-100%, -100%);
     width: 300px;
-    background-color: var(--background);
+    background-color: var(--text);
     border-radius: 10px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
     transition: all 0.3s ease-in-out;
@@ -40,17 +40,32 @@ src: url(../fonts/RubikVinyl-Regular.ttf);
 }
 
 .chat-sidebar-header {
-    background: linear-gradient(139deg, #116d75 0%, #26d8d8 100%);
+    background: #116d75;
+    position: relative;
     border-top-left-radius: 10px; /* Arrondi en haut à gauche */
     border-top-right-radius: 10px; /* Arrondi en haut à droite */
+    margin-bottom: 25px;
+}
+
+.chat-sidebar-header::after {
+    top: 100%;
+    left: 0;
+    position: absolute;
+    content: "";
+    z-index: 3;
+    width: 100%;
+    height: 25px;
+    background: linear-gradient(180deg, #116d75 0%, #26d8d8 100%);
+    border-bottom-left-radius: 100%;
+    border-bottom-right-radius: 100%;
 }
 
 .chat-sidebar-header h6 {
     font-family: "font-bold", sans-serif;
-    color: var(--background);
+    color: var(--text);
     font-size: 1.3rem;
     padding-left: 20px;
-    padding-bottom: 20px;
+    padding-bottom: 5px;
     padding-top: 23px;
     margin: 0;
     letter-spacing: 2px;
@@ -71,7 +86,7 @@ src: url(../fonts/RubikVinyl-Regular.ttf);
     position: absolute;
     bottom: 2.5%;
     right: 70px;
-    background-color: var(--background);
+    background: linear-gradient(139deg, #116d75 0%, #26d8d8 100%);
     width: 60px;
     height: 60px;
     border-radius: 100%;
@@ -83,5 +98,5 @@ src: url(../fonts/RubikVinyl-Regular.ttf);
 }
 
 .chat-sidebar-button:hover {
-    box-shadow: 3px 3px 6px rgba(0, 0, 0, 1);
+    box-shadow: 2px 2px 7px rgba(0, 0, 0, 1);
 }
