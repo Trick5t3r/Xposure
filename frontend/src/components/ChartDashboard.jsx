@@ -3,6 +3,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend, LineElement, CategorySca
 import { Box, Grid, Paper, Typography, IconButton, Divider } from "@mui/material";
 import { PieChart, LineChart } from "../components/ChartComponents";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import "../styles/ChartDashboard.css";
 
 // Register required Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement);
@@ -25,7 +26,7 @@ const ChartDashboard = forwardRef((props, ref) => {
   const lineCharts = datas.filter(data => data.chartType === "line");
 
   return (
-    <Box sx={{ padding: 4, backgroundColor: "#f4f6f8", minHeight: "100vh" }}>
+    <Box sx={{ padding: 4, backgroundColor: "#f4f6f8", height: "100%" }}>
       <Grid container spacing={3}>
         {/* Render pie charts together */}
         {pieCharts.length > 0 &&
