@@ -21,4 +21,4 @@ EXPOSE 8000
 
 # Utiliser le script comme point d'entrée
 #CMD ["/bin/bash", "/app/entrypoint_backend.sh"]
-CMD ["sh", "-c", "python manage.py makemigrations && python manage.py migrate && python manage.py setUpSuperUser && python manage.py runserver 0.0.0.0:8000 >> /logs/log_django.log 2>&1"]
+CMD ["sh", "-c", "python manage.py makemigrations && python manage.py migrate && python manage.py setUpSuperUser && uvicorn backend.asgi:application --host 0.0.0.0 --port 8000 --log-level info --reload >> /logs/log_django.log 2>&1"]

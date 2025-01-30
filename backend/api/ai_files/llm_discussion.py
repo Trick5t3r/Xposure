@@ -4,6 +4,7 @@ from .llm_function_calling import llm_pipeline
 from mistralai import Mistral
 from dotenv import load_dotenv
 
+
 load_dotenv()
 
 model = "mistral-small-latest"
@@ -22,6 +23,7 @@ def reponse_llm(messages):
     #rep = convert_to_markdown(rep)
     return {"role": "assistant", "content": rep}
 
+
 def interaction_llm(instance):
     #chat_response = client.chat.complete(
     #        model=model,
@@ -32,4 +34,5 @@ def interaction_llm(instance):
     rep = instance.messages[-1]["content"].upper()
     #rep = convert_to_markdown(rep)
     instance.messages.append({"role": "assistant", "content": rep})
+    logger.debug(f"Instance: {instance}")
     #llm_pipeline(instance)
