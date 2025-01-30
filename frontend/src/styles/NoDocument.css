@@ -1,0 +1,84 @@
+@font-face {
+    font-family: "font-reg";
+    src: url(../fonts/OldschoolGrotesk-NormalBook.otf);
+}
+
+@font-face {
+font-family: "font-bold";
+src: url(../fonts/OldschoolGrotesk-NormalMedium.otf);
+}
+
+@font-face {
+font-family: "font-title";
+src: url(../fonts/RubikVinyl-Regular.ttf);
+}
+
+:root {
+--secondary: #26d8d8e3;
+--primary: #116d75;
+--background: #141414;
+--black: #000;
+--text: #e4e4e4;
+}
+
+.no-document-wrapper {
+    margin-top: 25vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.no-document-wrapper h1 {
+    font-family: "font-bold", sans-serif;
+    font-size: 2rem;
+    padding: 0;
+    margin: 0;
+}
+
+.no-document-wrapper p {
+    font-family: "font-reg", sans-serif;
+    font-size: 1rem;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 20px;
+    max-width: 40vw;
+    text-align: center;
+}
+
+.upload-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 15px;
+    text-align: center;
+    color: var(--text);
+    background-color: var(--background);
+    border-radius: 15px;
+    border: 1px solid var(--background);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.upload-button p {
+    margin: 0;
+    padding: 0;
+    font-family: "font-reg", sans-serif;
+    margin-bottom: -5px;
+    font-size: 1rem;
+}
+
+.upload-button:hover {
+    background-color: var(--text);
+    color: var(--background);
+    transform: scale(1.02);
+}
+
+.upload-button:active {
+    transform: scale(1);
+}
+
+.upload-icon {
+    margin-right: 8px;
+    font-size: 1.5rem;
+}
