@@ -27,3 +27,5 @@ charset-normalizer==3.4.1
 urllib3==2.3.0
 uvloop==0.21.0
 watchfiles==1.0.4
+openpyxl
+pymupdf

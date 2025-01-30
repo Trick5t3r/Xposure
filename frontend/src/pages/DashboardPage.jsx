@@ -19,7 +19,7 @@ function DashboardPage() {
     const geographicDashboardRef = useRef(null);
     const [activeSection, setActiveSection] = useState(0);
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [isDocument, setIsDocument] = useState(true);
+    const [isDocument, setIsDocument] = useState(false);
 
     const { messages, files, datas, status, sendMessage, handleUploadFile, loadSession } = useBackend();
 
