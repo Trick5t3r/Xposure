@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import ChatSession
 from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin
-from .models import BaseFile, PDFFile, ImageFile, OtherFile
+from .models import BaseFile, PDFFile, ImageFile, OtherFile, ExcelFile
 
 
 @admin.register(ChatSession)
@@ -30,6 +30,12 @@ class PDFFileAdmin(PolymorphicChildModelAdmin):
     base_model = PDFFile
     list_display = ['title', 'chatsession', 'created_at', 'file']
     search_fields = ['title', 'content']
+
+@admin.register(ExcelFile)
+class ExcelFileAdmin(PolymorphicChildModelAdmin):
+    base_model = ExcelFile
+    list_display = ['title', 'chatsession', 'created_at', 'file', 'datas']
+    search_fields = ['title', 'content', 'datas']
 
 @admin.register(ImageFile)
 class ImageFileAdmin(PolymorphicChildModelAdmin):

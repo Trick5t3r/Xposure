@@ -1,6 +1,13 @@
 import os
 from mistralai import Mistral
 from dotenv import load_dotenv
+from ..models import ExcelFile
+import io
+from django.core.files.base import ContentFile
+from openpyxl import Workbook, load_workbook
+import fitz
+from pathlib import Path
+
 
 load_dotenv()
 
@@ -88,5 +95,53 @@ def convert_to_markdown(content):
     
 
 
-def pdf_to_excel(currentSession, pdfFile):
-    print(pdfFile)
+def pdf_to_excel(pdfFile_serializer):
+    """
+    Convertit un fichier PDF en fichier Excel.
+    Extrait les articles du PDF et les stocke avec des colonnes vides pour territoire, sujet et média.
+    """
+    # Récupération de l'instance `PDFFile` depuis le serializer
+    pdfFile = pdfFile_serializer.instance  
+    pdf_path = pdfFile.file.path  # Chemin du fichier PDF
+
+    # Ouverture du PDF et extraction du texte
+    doc = fitz.open(pdf_path)
+    extracted_data = []
+
+    # Parcours des pages (sauf la première)
+    for page_num in range(1, len(doc)):  # Commence à 1 pour ignorer la première page
+        page = doc[page_num]
+        text = page.get_text("text")  # Extraction du texte brut
+        extracted_data.append(["", "", "", "", "", text])  # Colonnes vides + article
+
+    # Création d'un fichier Excel vide avec une feuille nommée "Articles"
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Articles"
+
+    # Ajout des en-têtes
+    headers = ["Territoire", "Sujet", "Thème", "Qualité du retour", "Média", "Article"]
+    ws.append(headers)
+
+    # Remplissage du fichier Excel avec les données extraites
+    for row in extracted_data:
+        ws.append(row)
+
+    # Sauvegarde du fichier en mémoire
+    excel_buffer = io.BytesIO()
+    wb.save(excel_buffer)
+    excel_buffer.seek(0)
+
+    # Création de l'instance ExcelFile avec le fichier généré
+    excelFile = ExcelFile(
+        title= str(Path(pdfFile.title).with_suffix(".xlsx")),
+        chatsession=pdfFile.chatsession,
+        content=""
+    )
+
+    # Définition du fichier généré dans le champ `file`
+    excelFile.file.save(str(Path(pdfFile.title).with_suffix(".xlsx")), ContentFile(excel_buffer.getvalue()), save=True)
+
+    return excelFile
+
+
