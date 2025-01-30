@@ -9,7 +9,7 @@ import { color, text } from "d3";
 import MarkdownRenderer from "./MarkdownRenderer";
 
 // Composant ChatSidebar
-const ChatBotPage = forwardRef(({handleSendMessage, handleUploadFile}, ref) => {
+const ChatBotPage = forwardRef(({handleSendMessage, handleUploadFile, loadSession}, ref) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]); // Liste des fichiers uploadés
@@ -29,6 +29,9 @@ const ChatBotPage = forwardRef(({handleSendMessage, handleUploadFile}, ref) => {
       }
     },
   }));
+  useEffect(() => {
+    loadSession();
+  }, []);
 
   const handleSend = () => {
     if (input.trim() !== "" || uploadedFiles.length > 0) {

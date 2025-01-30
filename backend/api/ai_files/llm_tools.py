@@ -85,3 +85,8 @@ def convert_to_markdown(content):
         return markdown
     except Exception as e:
         return f"Error converting to Markdown: {str(e)}"
+    
+
+
+def pdf_to_excel(currentSession, pdfFile):
+    print(pdfFile)

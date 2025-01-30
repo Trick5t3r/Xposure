@@ -30,11 +30,8 @@ class BaseFile(PolymorphicModel):
 
     def extract_data(self):
         """Default extract method for text files."""
-        try:
-            self.content = ""
-        except Exception as e:
-            self.content = f"Error extracting data: {str(e)}"
-        return self.content
+        self.content = ""
+        return ""
 
 
 # PDF File Model
@@ -48,14 +45,8 @@ class PDFFile(BaseFile):
         super().save(*args, **kwargs)  # Save the file first
 
     def extract_data(self):
-        try:
-            with open(self.file.path, 'rb') as pdf_file:
-                reader = PyPDF2.PdfReader(pdf_file)
-                self.content = " ".join(page.extract_text() for page in reader.pages)
-        except Exception as e:
-            self.content = f"Error extracting data from PDF: {str(e)}"
-        self.index_content()
-        return self.embeddings
+        self.content = ""
+        return ""
 
 
 # Image File Model
@@ -69,13 +60,8 @@ class ImageFile(BaseFile):
         super().save(*args, **kwargs)  # Save the file first
 
     def extract_data(self):
-        try:
-            # Utiliser Pillow et Tesseract pour extraire du texte d'une image
-            image = Image.open(self.file)
-            self.content = "" #pytesseract.image_to_string(image, lang='eng')
-        except Exception as e:
-            self.content = f"Error extracting data from image file: {str(e)}"
-        return self.content
+        self.content = ""
+        return ""
 
 
 # Other File Model
