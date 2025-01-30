@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import ChatSession, BaseFile, ImageFile
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from .ai_files.llm_tools import pdf_to_excel
 
 
 
@@ -59,6 +60,7 @@ class FileView(APIView):
         serializer = BaseFilePolymorphicSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
+            pdf_to_excel(self, serializer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     

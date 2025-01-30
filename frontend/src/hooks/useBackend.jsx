@@ -3,6 +3,7 @@ import api, { createWebSocket } from "../api";
 
 const useBackend = () => {
     const [messages, setMessages] = useState([]); // Stocke les messages du chat
+    const [files, setFiles] = useState([]); // Stocke les messages du chat
     const [datas, setDatas] = useState([]); // Données supplémentaires (ex: graphiques)
     const [status, setStatus] = useState("disconnected"); // Statut du WebSocket
     const socketRef = useRef(null); // Référence au WebSocket
@@ -134,6 +135,19 @@ const useBackend = () => {
         }
     };
 
+    const handleUploadFile = async (e) => {
+        console.log("upload")
+        const file = e.target.files[0];
+        if (file) {
+          try {
+            const fileData = await uploadFile(file); // Appelle la fonction parent pour gérer l'upload du fichier et obtenir les données
+            setFiles((prev) => [...prev, { file, fileData }]); // Ajoute le fichier à la liste
+          } catch (error) {
+            console.error("Erreur lors de l'upload du fichier:", error);
+          }
+        }
+      };
+
     // Charger les données initiales depuis l'API REST
     const loadSession = async () => {
         try {
@@ -148,10 +162,11 @@ const useBackend = () => {
 
     return {
         messages,
+        files,
         datas,
         status,
         sendMessage,
-        uploadFile,
+        handleUploadFile,
         loadSession,
     };
 };

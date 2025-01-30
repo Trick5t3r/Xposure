@@ -19,9 +19,9 @@ function DashboardPage() {
     const geographicDashboardRef = useRef(null);
     const [activeSection, setActiveSection] = useState(0);
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [isDocument, setIsDocument] = useState(false);
+    const [isDocument, setIsDocument] = useState(true);
 
-    const { messages, datas, status, sendMessage, uploadFile, loadSession } = useBackend();
+    const { messages, files, datas, status, sendMessage, handleUploadFile, loadSession } = useBackend();
 
     // Charger la session initiale lorsque la page se charge
     useEffect(() => {
@@ -60,16 +60,6 @@ function DashboardPage() {
         sendMessage(newMessage);
     };
 
-    // Gestion de l'upload des fichiers
-    const handleUploadFile = async (file) => {
-        try {
-            const uploadedFile = await uploadFile(file);
-            console.log("File uploaded successfully:", uploadedFile);
-        } catch (error) {
-            alert("Error uploading file: " + error.message);
-        }
-    };
-
     const sections = [
         {
             id: "section-analyses",
@@ -84,7 +74,7 @@ function DashboardPage() {
         {
             id: "section-predictions",
             title:<h1>AI Assistant</h1>,
-            content: <ChatBotPage ref={chatBoxRef} handleSendMessage={handleSendMessage} handleUploadFile={handleUploadFile}/>
+            content: <ChatBotPage ref={chatBoxRef} handleSendMessage={handleSendMessage} handleUploadFile={handleUploadFile} loadSession={loadSession}/>
         }             
     ]
     const CustomInput = forwardRef(({ value, onClick }, ref) => (
@@ -127,7 +117,7 @@ function DashboardPage() {
                             </div>
                         </div>
                         <div className="dashboard-content-content">
-                            {isDocument ? sections[activeSection].content : <NoDocument />}
+                            {isDocument ? sections[activeSection].content : <NoDocument handleUploadFile={handleUploadFile}/>}
                         </div>
                 </div>
             </div>
