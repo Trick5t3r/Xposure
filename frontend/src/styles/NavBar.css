@@ -222,8 +222,7 @@ src: url(../fonts/RubikVinyl-Regular.ttf);
     top: 0;
     right: -17vw; /* Caché à droite par défaut */
     width: 17vw;
-    height: 40vh;
-    min-height: 340px;
+    height: 100vh;
     background-color: var(--primary);
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
     transition: right 0.5s ease-in-out;
@@ -241,7 +240,8 @@ src: url(../fonts/RubikVinyl-Regular.ttf);
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
+    height: calc(100% - 40px);
 }
 
 .nav-bar-user-photo {
@@ -254,6 +254,7 @@ src: url(../fonts/RubikVinyl-Regular.ttf);
     font-family: "font-reg", sans-serif;
     color: var(--background);
     font-size: 1.3rem;
+    text-align: center;
 }
 
 .nav-bar-menu-content button {
@@ -268,6 +269,7 @@ src: url(../fonts/RubikVinyl-Regular.ttf);
     background: transparent;
     border: 2px solid var(--background);
     transition: all 0.2s ease-in-out;
+    margin-bottom: 20px;
 }
 
 .nav-bar-menu-content button:hover {

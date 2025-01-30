@@ -1,0 +1,51 @@
+@font-face {
+    font-family: "font-reg";
+    src: url(../fonts/OldschoolGrotesk-NormalBook.otf);
+}
+
+@font-face {
+font-family: "font-bold";
+src: url(../fonts/OldschoolGrotesk-NormalMedium.otf);
+}
+
+@font-face {
+font-family: "font-title";
+src: url(../fonts/RubikVinyl-Regular.ttf);
+}
+
+:root {
+--text: #e4e4e4;
+--background: #141414;
+--secondary: #26d8d8e3;
+--primary: #116d75;
+}
+
+.chat-bot-page {
+    height: calc(100vh - 90px);
+    display: flex;
+    flex-direction: column;
+    background-color: var(--text);
+}
+
+.chat-bot-page-messages-container {
+    flex-grow: 1; /* Prend tout l'espace disponible */
+    overflow-y: auto; /* Rend cette partie scrollable */
+}
+
+.chat-bot-page-messages {
+    max-width: 48rem;
+    margin: auto;
+}
+
+.chat-bot-page-input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chat-bot-page-input-field {
+    color: var(--text);
+    position: sticky;
+    bottom: 0;
+    max-width: 48rem;
+}

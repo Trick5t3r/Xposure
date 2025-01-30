@@ -42,6 +42,8 @@ src: url(../fonts/RubikVinyl-Regular.ttf);
     padding: 0;
     margin: 0;
     margin-bottom: 20px;
+    max-width: 40vw;
+    text-align: center;
 }
 
 .upload-button {

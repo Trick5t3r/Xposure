@@ -12,9 +12,9 @@ import {useNavigate} from "react-router-dom";
 const SideBarDash = ({setActiveSection}) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const items = [
-    <a className="sidebar-link"><AnalyticsIcon className="item-icon" />Analyses</a>,
-    <a className="sidebar-link"><QuestionMarkIcon className="item-icon" />Relations Causales</a>,
-    <a className="sidebar-link"><OnlinePredictionIcon className="item-icon" />Prédictions</a>
+    <a className="sidebar-link"><AnalyticsIcon className="item-icon" />Geographic</a>,
+    <a className="sidebar-link"><QuestionMarkIcon className="item-icon" />Theme comparison</a>,
+    <a className="sidebar-link"><OnlinePredictionIcon className="item-icon" />AI Assistant</a>
   ]
 
   const handleClick = (index) => {

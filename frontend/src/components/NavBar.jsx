@@ -104,8 +104,10 @@ function NavBar() {
                     <div className="nav-bar-hamburger-menu-line"></div>
                 </div>
                 <div className="nav-bar-menu-content">
-                    <img src="/imgs/colas.jpg" alt="Photo" className="nav-bar-user-photo" />
-                    <p>La grosse poutre</p>
+                    <div className="nav-bar-user-info">
+                        <img src="/imgs/enedis-notre-histoire.jpg" alt="Photo" className="nav-bar-user-photo" />
+                        <p>Enedis</p>
+                    </div>
                     <button onClick={handleLogout}>⏻ Logout</button>
                 </div>
             </div>

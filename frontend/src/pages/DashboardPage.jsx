@@ -4,23 +4,24 @@ import api from "../api";
 import NavBar from '../components/NavBar';
 import SideBarDash from '../components/SideBarDash';
 import "../styles/DashboardPage.css";
+import GeographicDashboard from '../components/GeographicDashboard';
 import ChartDashboard from '../components/ChartDashboard';
-import ChatSidebar from '../components/ChatSidebar';
+import ChatBotPage from '../components/ChatBotPage';
 import NoDocument from '../components/NoDocument';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Chart } from 'chart.js';
 import useBackend from '../hooks/useBackend';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 function DashboardPage() {
     const chatBoxRef = useRef(null);
-    const chartDashboardRef = useRef(null);
+    const geographicDashboardRef = useRef(null);
     const [activeSection, setActiveSection] = useState(0);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [isDocument, setIsDocument] = useState(false);
 
     const { messages, datas, status, sendMessage, uploadFile, loadSession } = useBackend();
-
 
     // Charger la session initiale lorsque la page se charge
     useEffect(() => {
@@ -29,8 +30,8 @@ function DashboardPage() {
                 if (chatBoxRef.current) {
                     chatBoxRef.current.setMessages(messages);
                 }
-                if (chartDashboardRef.current) {
-                    chartDashboardRef.current.setDatas(datas);
+                if (geographicDashboardRef.current) {
+                    geographicDashboardRef.current.setDatas(datas);
                 }
             })
             .catch((err) => {
@@ -38,13 +39,12 @@ function DashboardPage() {
             });
     }, []);
     
-
     useEffect(() => {
         if (chatBoxRef.current) {
             chatBoxRef.current.setMessages(messages);
         }
-        if (chartDashboardRef.current) {
-            chartDashboardRef.current.setDatas(datas);
+        if (geographicDashboardRef.current) {
+            geographicDashboardRef.current.setDatas(datas);
         }
     }, [messages, datas]);
 
@@ -73,18 +73,18 @@ function DashboardPage() {
     const sections = [
         {
             id: "section-analyses",
-            title: <h1>Analyses</h1>,
-            content: <ChartDashboard ref={chartDashboardRef} />
+            title: <h1>Geographic Analysis</h1>,
+            content: <GeographicDashboard ref={geographicDashboardRef} />
         },
         {
             id: "section-relations-causales",
-            title: <h1>Relations Causales</h1>,
-            content: <ChartDashboard ref={chartDashboardRef} />
+            title: <h1>Theme Comparison</h1>,
+            content: <ChartDashboard />
         },
         {
             id: "section-predictions",
-            title:<h1>Prédictions</h1>,
-            content: <ChartDashboard ref={chartDashboardRef} />
+            title:<h1>AI Assistant</h1>,
+            content: <ChatBotPage ref={chatBoxRef} handleSendMessage={handleSendMessage} handleUploadFile={handleUploadFile}/>
         }             
     ]
     const CustomInput = forwardRef(({ value, onClick }, ref) => (
@@ -93,7 +93,8 @@ function DashboardPage() {
           ref={ref}
           className="custom-input"
         >
-          {value}
+            <CalendarMonthIcon className="calendar-icon" />
+            {value}
         </button>
       ));
 
@@ -103,7 +104,7 @@ function DashboardPage() {
                 <SideBarDash setActiveSection={setActiveSection}/>
                 <div className="content">
                         <div className="dashboard-content-header">
-                            {sections[activeSection].title}
+                            {isDocument ? sections[activeSection].title : <h1>Welcome Enedis !</h1>}
                             <div className='dashboard-content-header-right'>
                                 <div className="datepicker-container">
                                     {/* DatePicker avec input personnalisé */}
@@ -129,11 +130,6 @@ function DashboardPage() {
                             {isDocument ? sections[activeSection].content : <NoDocument />}
                         </div>
                 </div>
-                <ChatSidebar
-                    ref={chatBoxRef}
-                    handleSendMessage={handleSendMessage}
-                    handleUploadFile={handleUploadFile}
-                />
             </div>
         </div>
     );

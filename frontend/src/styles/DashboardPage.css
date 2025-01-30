@@ -38,7 +38,7 @@
 
 .content {
   flex: 1;
-  background-color: #ecf0f1;
+  background-color: var(--text);
   color: black;
   margin-left: 250px;
   overflow-y: auto;
@@ -67,7 +67,7 @@
 
 .custom-input {
   padding: 10px 15px;
-  padding-bottom: 5px;
+  padding-bottom: 8px;
   font-family: "font-reg", sans-serif;
   font-size: 1rem;
   color: var(--text);
@@ -76,12 +76,17 @@
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s ease;
-  width: 150px;
+  width: 188px;
 }
 
 .custom-input:hover {
   background-color: var(--text);
   color: var(--background);
+}
+
+.calendar-icon {
+  margin-bottom: -5px;
+  margin-right: 10px;
 }
 
 .user-box {

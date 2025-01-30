@@ -1,0 +1,23 @@
+@font-face {
+    font-family: "font-reg";
+    src: url(../fonts/OldschoolGrotesk-NormalBook.otf);
+}
+
+@font-face {
+font-family: "font-bold";
+src: url(../fonts/OldschoolGrotesk-NormalMedium.otf);
+}
+
+@font-face {
+font-family: "font-title";
+src: url(../fonts/RubikVinyl-Regular.ttf);
+}
+
+:root {
+--secondary: #26d8d8e3;
+--primary: #116d75;
+--background: #141414;
+--black: #000;
+--text: #e4e4e4;
+}
+
