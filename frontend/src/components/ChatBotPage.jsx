@@ -82,9 +82,9 @@ const ChatBotPage = forwardRef(({handleSendMessage, handleUploadFile, loadSessio
                             background: message.role === "user" ? `${gradientColor}` : `${textColor}`,
                             color: message.role === "user" ? `${textColor}` : `${backgroundColor}`,
                             borderRadius: "15px",
-                            padding: "10px",
+                            padding: "0 20px",
                         }}
-                        primary={message.content}
+                        primary={<MarkdownRenderer markdown={message.content} />}
                         />
                         {/* <MarkdownRenderer markdown={message.content} /> */}
                     </ListItem>

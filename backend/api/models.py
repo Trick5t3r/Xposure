@@ -27,6 +27,8 @@ class BaseFile(PolymorphicModel):
     created_at = models.DateTimeField(default=now)
     file = models.FileField()#upload_to='uploads/')
     content = models.TextField(blank=True, null=True)  # For storing extracted text
+    date = models.CharField(max_length=7, blank=True, null=True)  
+    region = models.CharField(max_length=3, null=True, blank=True)
 
     def extract_data(self):
         """Default extract method for text files."""

@@ -3,7 +3,7 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import * as d3 from "d3";
 import "../styles/FranceMap.css";
 
-const FranceMap = () => {
+const FranceMap = ({setSelectedDashboardRegion}) => {
   const svgRef = useRef();
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [selectedRegionName, setSelectedRegionName] = useState(null);
@@ -14,6 +14,7 @@ const FranceMap = () => {
   const handleRegionClick = (regionName, regionCode) => {
     setSelectedRegion(regionCode);
     setSelectedRegionName(regionName);
+    setSelectedDashboardRegion(regionCode);
   };
 
   useEffect(() => {

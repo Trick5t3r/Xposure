@@ -11,11 +11,24 @@ function NoDocument({handleUploadFile}) {
               color="primary"
               component="label"
               sx={{
-                bgcolor: "secondary.main",
-                color: "#fff",
-                borderRadius: "50%",
-                '&:hover': {
-                  bgcolor: "secondary.dark",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "10px 15px",
+                textAlign: "center",
+                color: "var(--text)",
+                backgroundColor: "var(--background)",
+                borderRadius: "15px",
+                border: "1px solid var(--background)",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+                "&:hover": {
+                  backgroundColor: "var(--text)",
+                  color: "var(--background)",
+                  transform: "scale(1.02)",
+                },
+                "&:active": {
+                  transform: "scale(1)",
                 },
               }}
             >
@@ -25,7 +38,7 @@ function NoDocument({handleUploadFile}) {
                 hidden
                 onChange={handleUploadFile}
               />
-            <p>Upload Document</p>
+            <span className="upload-span">Upload Document</span>
             </IconButton>
     </div>
   );

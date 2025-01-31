@@ -3,7 +3,7 @@ import api, { createWebSocket } from "../api";
 
 const useBackend = () => {
     const [messages, setMessages] = useState([]); // Stocke les messages du chat
-    const [files, setFiles] = useState([]); // Stocke les messages du chat
+    const [files, setFiles] = useState([]); // Stocke les fichiers
     const [datas, setDatas] = useState([]); // Données supplémentaires (ex: graphiques)
     const [status, setStatus] = useState("disconnected"); // Statut du WebSocket
     const socketRef = useRef(null); // Référence au WebSocket
@@ -103,9 +103,13 @@ const useBackend = () => {
     };
 
     // Téléchargement de fichier
-    const uploadFile = async (file) => {
+    const uploadFile = async ({file, selectedDate, selectedDashboardRegion}) => {
+        console.log("upload file");
         const formData = new FormData();
         formData.append("file", file);
+        formData.append("date", selectedDate.toISOString().slice(0, 7));
+        formData.append("region", ((selectedDashboardRegion === "all") || !(selectedDashboardRegion)) ? -1 : selectedDashboardRegion);
+        console.log(formData);
 
         // Déterminer le type de fichier
         const fileExtension = file.name.split(".").pop().toLowerCase();
@@ -135,12 +139,12 @@ const useBackend = () => {
         }
     };
 
-    const handleUploadFile = async (e) => {
+    const handleUploadFile = async ({e, selectedDate, selectedDashboardRegion}) => {
         console.log("upload")
         const file = e.target.files[0];
         if (file) {
           try {
-            const fileData = await uploadFile(file); // Appelle la fonction parent pour gérer l'upload du fichier et obtenir les données
+            const fileData = await uploadFile({file, selectedDate, selectedDashboardRegion}); // Appelle la fonction parent pour gérer l'upload du fichier et obtenir les données
             setFiles((prev) => [...prev, { file, fileData }]); // Ajoute le fichier à la liste
           } catch (error) {
             console.error("Erreur lors de l'upload du fichier:", error);

@@ -60,14 +60,6 @@ src: url(../fonts/RubikVinyl-Regular.ttf);
     transition: all 0.2s ease;
 }
 
-.upload-button p {
-    margin: 0;
-    padding: 0;
-    font-family: "font-reg", sans-serif;
-    margin-bottom: -5px;
-    font-size: 1rem;
-}
-
 .upload-button:hover {
     background-color: var(--text);
     color: var(--background);
@@ -76,6 +68,14 @@ src: url(../fonts/RubikVinyl-Regular.ttf);
 
 .upload-button:active {
     transform: scale(1);
+}
+
+.upload-span {
+    margin: 0;
+    padding: 0;
+    font-family: "font-reg", sans-serif;
+    font-size: 1rem;
+    margin-bottom: -5px;
 }
 
 .upload-icon {
