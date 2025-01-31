@@ -62,5 +62,4 @@ async def async_reponse_llm(messages):
         if chunk.data.choices[0].delta.content is not None:
             current_reponse += chunk.data.choices[0].delta.content
             
-            logging.info(current_reponse)
             yield current_reponse

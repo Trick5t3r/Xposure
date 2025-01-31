@@ -6,7 +6,7 @@ from .ai_files.llm_discussion import reponse_llm, interaction_llm
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from rest_polymorphic.serializers import PolymorphicSerializer
-from .models import BaseFile, PDFFile, ImageFile, OtherFile
+from .models import BaseFile, PDFFile, ImageFile, OtherFile, ExcelFile
 
 #Functions
 def get_or_create_last_chat_session(user):
@@ -105,7 +105,10 @@ class BaseFileSerializer(serializers.ModelSerializer):
 class PDFFileSerializer(BaseFileSerializer):
     class Meta(BaseFileSerializer.Meta):  # Hériter des champs et des options Meta
         model = PDFFile
-    
+
+class ExcelFileSerializer(BaseFileSerializer):
+    class Meta(BaseFileSerializer.Meta):  # Hériter des champs et des options Meta
+        model = ExcelFile
 
 class ImageFileSerializer(BaseFileSerializer):
     class Meta(BaseFileSerializer.Meta):  # Hériter des champs et des options Meta
@@ -125,5 +128,6 @@ class BaseFilePolymorphicSerializer(PolymorphicSerializer):
         BaseFile: BaseFileSerializer,
         PDFFile: PDFFileSerializer,
         ImageFile: ImageFileSerializer,
+        ExcelFile: ExcelFileSerializer,
         OtherFile: OtherFileSerializer,
     }

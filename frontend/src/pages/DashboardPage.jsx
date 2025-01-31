@@ -18,7 +18,7 @@ function DashboardPage() {
     const [activeSection, setActiveSection] = useState(0);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedDashboardRegion, setSelectedDashboardRegion] = useState(null);
-    const [isDocument, setIsDocument] = useState(true);
+    const [isDocument, setIsDocument] = useState(false);
     const [refresh, setRefresh] = useState(false);
 
     const { messages, files, datas, status, sendMessage, handleUploadFile, loadSession } = useBackend();

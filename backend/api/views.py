@@ -66,7 +66,7 @@ class FileView(APIView):
         serializer = BaseFilePolymorphicSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
-            pdf_to_excel(self, serializer)
+            pdf_to_excel(serializer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     

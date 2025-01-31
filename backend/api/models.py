@@ -3,10 +3,10 @@ from django.contrib.auth.models import User
 
 from django.utils.timezone import now
 import os
-import PyPDF2
 from PIL import Image
 from polymorphic.models import PolymorphicModel
-
+from .ai_files.excel_tools import complete_excel
+import stat
 
 # Create your models here.
 
@@ -48,6 +48,27 @@ class PDFFile(BaseFile):
 
     def extract_data(self):
         self.content = ""
+        return ""
+    
+# PDF File Model
+class ExcelFile(BaseFile):
+    datas = models.JSONField(default=list)
+
+    def save(self, *args, **kwargs):
+        """Override save to determine and create specific subclass."""
+        if not self.content or not self.datas:
+            self.extract_data()
+        if self.file and not self.title:  # Check if the file exists and title is not set
+            self.title = os.path.basename(self.file.name)  # Extract the file name
+        super().save(*args, **kwargs)  # Save the file first
+        if self.file:
+            file_path = self.file.path
+            os.chmod(file_path, stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IWGRP | stat.S_IROTH | stat.S_IWOTH)
+            complete_excel(file_path)
+
+    def extract_data(self):
+        self.content = ""
+        self.datas = []
         return ""
 
 

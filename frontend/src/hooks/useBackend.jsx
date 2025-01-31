@@ -117,6 +117,8 @@ const useBackend = () => {
             ? "ImageFile"
             : fileExtension === "pdf"
             ? "PDFFile"
+            : ["xls", "xlsx", "csv"].includes(fileExtension)
+            ? "ExcelFile"
             : "OtherFile";
 
         formData.append("resourcetype", resourceType);
