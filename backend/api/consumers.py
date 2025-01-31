@@ -10,7 +10,7 @@ from .serializers import (
 
 import asyncio
 import logging
-from .ai_files.llm_async import async_llm_discussion
+from .ai_files.async_aws_llm import async_llm_discussion
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
