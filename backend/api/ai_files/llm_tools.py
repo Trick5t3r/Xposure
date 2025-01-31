@@ -136,7 +136,9 @@ def pdf_to_excel(pdfFile_serializer):
     excelFile = ExcelFile(
         title= str(Path(pdfFile.title).with_suffix(".xlsx")),
         chatsession=pdfFile.chatsession,
-        content=""
+        content="",
+        date=pdfFile.date,
+        region=pdfFile.region,
     )
 
     # Définition du fichier généré dans le champ `file`
