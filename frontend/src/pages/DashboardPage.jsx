@@ -1,7 +1,6 @@
 
 import { useState, useEffect, useRef, forwardRef } from 'react';
 import api from "../api";
-import NavBar from '../components/NavBar';
 import SideBarDash from '../components/SideBarDash';
 import "../styles/DashboardPage.css";
 import GeographicDashboard from '../components/GeographicDashboard';
@@ -10,7 +9,6 @@ import ChatBotPage from '../components/ChatBotPage';
 import NoDocument from '../components/NoDocument';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Chart } from 'chart.js';
 import useBackend from '../hooks/useBackend';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
@@ -19,10 +17,44 @@ function DashboardPage() {
     const geographicDashboardRef = useRef(null);
     const [activeSection, setActiveSection] = useState(0);
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selectedDashboardRegion, setSelectedDashboardRegion] = useState(null);
     const [isDocument, setIsDocument] = useState(false);
+    const [refresh, setRefresh] = useState(false);
 
     const { messages, files, datas, status, sendMessage, handleUploadFile, loadSession } = useBackend();
+    const [listFiles, setListFiles] = useState([]);
 
+    useEffect(() => {
+        getListFiles();
+    }, [refresh]);
+
+    const getListFiles = () => {
+        api
+        .get("/api/fileupload/")
+        .then((res) => res.data)
+        .then((data) => {setListFiles(data)})
+        .catch((err) => alert(err));
+    };
+
+    const fileExists = listFiles.some(file => {
+        const fileDate = new Date(file.date);
+        const selectedDateObj = selectedDate;
+        const boolDate = (fileDate.getFullYear() === selectedDateObj.getFullYear() && fileDate.getMonth() === selectedDateObj.getMonth());
+        if ((!selectedDashboardRegion) || (selectedDashboardRegion === 'all')) {
+            return boolDate && (file.region == -1);
+        } else {
+            return boolDate && (file.region == selectedDashboardRegion);
+        }      
+    });
+
+    useEffect(() => {
+        if (fileExists) {
+            setIsDocument(true);
+        } else {
+            setIsDocument(false);
+        }
+    }, [listFiles, selectedDate, selectedDashboardRegion]);
+    
     // Charger la session initiale lorsque la page se charge
     useEffect(() => {
         loadSession()
@@ -86,12 +118,12 @@ function DashboardPage() {
             <CalendarMonthIcon className="calendar-icon" />
             {value}
         </button>
-      ));
+    ));
 
     return (
         <div className="dashboard-page">
             <div className="dashboard-layout">
-                <SideBarDash setActiveSection={setActiveSection}/>
+                <SideBarDash setActiveSection={setActiveSection} setSelectedDashboardRegion={setSelectedDashboardRegion}/>
                 <div className="content">
                         <div className="dashboard-content-header">
                             {isDocument ? sections[activeSection].title : <h1>Welcome Enedis !</h1>}
@@ -117,7 +149,13 @@ function DashboardPage() {
                             </div>
                         </div>
                         <div className="dashboard-content-content">
-                            {isDocument ? sections[activeSection].content : <NoDocument handleUploadFile={handleUploadFile}/>}
+                            {isDocument ? sections[activeSection].content : <NoDocument handleUploadFile={(e) => {
+                                handleUploadFile({e, selectedDate, selectedDashboardRegion});
+                                setTimeout(() => {
+                                    setRefresh(prev => !prev);
+                                }, 1000);
+                                }}
+                                />}
                         </div>
                 </div>
             </div>

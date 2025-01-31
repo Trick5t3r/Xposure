@@ -9,7 +9,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import FranceMap from '../components/FranceMap';
 import {useNavigate} from "react-router-dom";
 
-const SideBarDash = ({setActiveSection}) => {
+const SideBarDash = ({setActiveSection, setSelectedDashboardRegion}) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const items = [
     <a className="sidebar-link"><AnalyticsIcon className="item-icon" />Geographic</a>,
@@ -36,7 +36,7 @@ const SideBarDash = ({setActiveSection}) => {
       <ul className="sidebar-list">
         <li className="sidebar-item-logo" onClick={() => navigate("/")}>Xposure</li>
         <li className="sidebar-item-france-map">
-          <FranceMap />
+          <FranceMap setSelectedDashboardRegion={setSelectedDashboardRegion}/>
         </li>
         {items.map((item, index) => (
         <li

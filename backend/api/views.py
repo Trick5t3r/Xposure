@@ -55,12 +55,18 @@ class ChatSessionDetailView(APIView):
 class FileView(APIView):
     permission_classes = [IsAuthenticated]
 
+    def get(self, request, *args, **kwargs):
+        """Récupérer tous les fichiers de l'utilisateur connecté"""
+        files = BaseFile.objects.filter(chatsession__user=request.user)
+        serializer = BaseFilePolymorphicSerializer(files, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def post(self, request, *args, **kwargs):
         print("data:", request.data)
         serializer = BaseFilePolymorphicSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
-            pdf_to_excel(serializer)
+            # pdf_to_excel(serializer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
