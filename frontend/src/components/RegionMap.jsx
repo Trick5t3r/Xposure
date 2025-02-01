@@ -23,7 +23,7 @@ const RegionMap = ({ selectedRegion, resultFile }) => {
 
   const normalizeTerritory = (territory) => {
     if (!territory) return "";
-    return territory.toLowerCase().replace(/\s|-/g, ""); // 🔴 Met en minuscules et supprime espaces/tirets
+    return territory.toLowerCase().replace(/\s|-/g, ""); //  Met en minuscules et supprime espaces/tirets
   };
 
   console.log("resultFile", resultFile);
@@ -141,7 +141,7 @@ const RegionMap = ({ selectedRegion, resultFile }) => {
           .append("path")
           .attr("d", path)
           .attr("fill", d => {
-            const territoire = d.properties.nom; // 🔴 Nom du département
+            const territoire = d.properties.nom; // Nom du département
             console.log("Territoire carte", normalizeTerritory(territoire))
             return colorScale(territoryAverages[normalizeTerritory(territoire)] || 10); // 🔴 Appliquer la couleur selon la moyenne
           })

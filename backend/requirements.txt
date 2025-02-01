@@ -32,4 +32,7 @@ pymupdf
 aioboto3
 boto3
 aiobotocore
+reportlab
+matplotlib
 pandas
+geopandas
