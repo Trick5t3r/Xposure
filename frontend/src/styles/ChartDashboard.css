@@ -24,12 +24,12 @@ src: url(../fonts/RubikVinyl-Regular.ttf);
     display: flex;
     flex-wrap: wrap; /* Permet de passer à la ligne si nécessaire */
     justify-content: center; /* Centre les éléments horizontalement */
-    gap: 40px; /* Ajoute un espace entre les graphiques */
+    gap: 60px; /* Ajoute un espace entre les graphiques */
     padding-top: 50px;
 }
 
 .chart-component {
-    width: 25vw; /* Ajuste la largeur de chaque graphique */
+    width: 20vw; /* Ajuste la largeur de chaque graphique */
     text-align: center; /* Centre le texte sous le graphique */
     height: 40vh;
 }

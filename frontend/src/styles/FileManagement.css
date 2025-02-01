@@ -32,10 +32,16 @@ src: url(../fonts/RubikVinyl-Regular.ttf);
     text-decoration: underline;
 }
 
-.file-management-wrapper h2 {
-    font-family: "font-reg", sans-serif;
+.file-management-wrapper a {
+    font-family: "font-bold", sans-serif;
     font-size: 1rem;
     color: var(--background);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.file-management-wrapper a:hover {
+    text-decoration: underline;
 }
 
 .file-management-wrapper p {
@@ -48,11 +54,24 @@ src: url(../fonts/RubikVinyl-Regular.ttf);
 .file-management-item-icon {
     margin-bottom: 5px;
 }
+
+.file-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    height: 35vh;
+    width: 50%;
+    min-width: 600px;
+}
+
 .file-card {
     margin-left: 30px;
     gap: 20px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    padding-right: 10px;
 }
 
 .delete-file-button {
@@ -75,6 +94,7 @@ src: url(../fonts/RubikVinyl-Regular.ttf);
     margin: auto;
     margin-top: 100px;
     width: 300px;
+    margin-bottom: 40px;
 }
 
 .submit-wrapper {

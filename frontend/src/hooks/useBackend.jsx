@@ -166,6 +166,22 @@ const useBackend = () => {
         }
     };
 
+    const loadResultFile = async ({date, region}) => {
+        console.log("load result file");
+        try {
+            const response = await api.get(`/api/resultfile/?date=${date}&region=${region}`);
+
+            if (response.status === 200) {
+                return response.data;
+            } else {
+                throw new Error("Failed to retrieve result file.");
+            }
+        } catch (error) {
+            console.error("Error retrieval :", error.message);
+            throw error;
+        }
+    };
+
     return {
         messages,
         files,
@@ -174,6 +190,7 @@ const useBackend = () => {
         sendMessage,
         handleUploadFile,
         loadSession,
+        loadResultFile,
     };
 };
 
