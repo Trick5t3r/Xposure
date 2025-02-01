@@ -21,30 +21,30 @@ class BaseFileAdmin(PolymorphicParentModelAdmin):
     """
     base_model = BaseFile
     child_models = (PDFFile, ImageFile, OtherFile)
-    list_display = ['title', 'chatsession', 'created_at', 'polymorphic_ctype']
+    list_display = ['title', 'chatsession', 'date', 'region', 'isResultFile', 'polymorphic_ctype']
     #search_fields = ['title', 'content']
 
 # Admin for each child model
 @admin.register(PDFFile)
 class PDFFileAdmin(PolymorphicChildModelAdmin):
     base_model = PDFFile
-    list_display = ['title', 'chatsession', 'created_at', 'file']
+    list_display = ['title', 'chatsession', 'date', 'region']
     search_fields = ['title', 'content']
 
 @admin.register(ExcelFile)
 class ExcelFileAdmin(PolymorphicChildModelAdmin):
     base_model = ExcelFile
-    list_display = ['title', 'chatsession', 'created_at', 'file', 'datas']
+    list_display = ['title', 'chatsession', 'date', 'region', 'isResultFile']
     search_fields = ['title', 'content', 'datas']
 
 @admin.register(ImageFile)
 class ImageFileAdmin(PolymorphicChildModelAdmin):
     base_model = ImageFile
-    list_display = ['title', 'chatsession', 'created_at', 'file']
+    list_display = ['title', 'chatsession', 'date', 'region']
     search_fields = ['title', 'content']
 
 @admin.register(OtherFile)
 class OtherFileAdmin(PolymorphicChildModelAdmin):
     base_model = OtherFile
-    list_display = ['title', 'chatsession', 'created_at', 'file']
+    list_display = ['title', 'chatsession', 'date', 'region']
     search_fields = ['title', 'content']

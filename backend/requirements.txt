@@ -32,3 +32,4 @@ pymupdf
 aioboto3
 boto3
 aiobotocore
+pandas
