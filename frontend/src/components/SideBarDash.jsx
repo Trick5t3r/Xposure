@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { REFRESH_TOKEN, ACCESS_TOKEN, USERNAME } from "../constants";
 import '../styles/SideBarDash.css'; // Import the CSS file for styling
-import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined'; // Import MUI icon
 import AnalyticsIcon from '@mui/icons-material/Analytics';
+import PublicIcon from '@mui/icons-material/Public';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import SmartToyIcon from '@mui/icons-material/SmartToy';
+import BarChartIcon from '@mui/icons-material/BarChart';
 import OnlinePredictionIcon from '@mui/icons-material/OnlinePrediction';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 import LogoutIcon from '@mui/icons-material/Logout';
 import FranceMap from '../components/FranceMap';
 import {useNavigate} from "react-router-dom";
@@ -12,9 +15,10 @@ import {useNavigate} from "react-router-dom";
 const SideBarDash = ({setActiveSection, setSelectedDashboardRegion}) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const items = [
-    <a className="sidebar-link"><AnalyticsIcon className="item-icon" />Geographic</a>,
-    <a className="sidebar-link"><QuestionMarkIcon className="item-icon" />Theme comparison</a>,
-    <a className="sidebar-link"><OnlinePredictionIcon className="item-icon" />AI Assistant</a>
+    <a className="sidebar-link"><AttachFileIcon className="item-icon" />Files management</a>,
+    <a className="sidebar-link"><PublicIcon className="item-icon" />Geographic</a>,
+    <a className="sidebar-link"><BarChartIcon className="item-icon" />Theme comparison</a>,
+    <a className="sidebar-link"><SmartToyIcon className="item-icon" />AI Assistant</a>,
   ]
 
   const handleClick = (index) => {

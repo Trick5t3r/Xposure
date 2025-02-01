@@ -7,6 +7,7 @@ import GeographicDashboard from '../components/GeographicDashboard';
 import ChartDashboard from '../components/ChartDashboard';
 import ChatBotPage from '../components/ChatBotPage';
 import NoDocument from '../components/NoDocument';
+import FileManagement from '../components/FileManagement';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import useBackend from '../hooks/useBackend';
@@ -46,7 +47,9 @@ function DashboardPage() {
             return boolDate && (file.region == selectedDashboardRegion);
         }      
     });
-
+    console.log("region", selectedDashboardRegion);
+    console.log("date", selectedDate.toISOString().slice(0, 7));
+    console.log(listFiles);
     useEffect(() => {
         if (fileExists) {
             setIsDocument(true);
@@ -94,6 +97,11 @@ function DashboardPage() {
 
     const sections = [
         {
+            id: "section-file-management",
+            title: <h1>File Management</h1>,
+            content: <FileManagement handleUploadFile={handleUploadFile} setRefresh={setRefresh} selectedDate={selectedDate} selectedDashboardRegion={selectedDashboardRegion}/>
+        },    
+        {
             id: "section-analyses",
             title: <h1>Geographic Analysis</h1>,
             content: <GeographicDashboard ref={geographicDashboardRef} />
@@ -107,7 +115,7 @@ function DashboardPage() {
             id: "section-predictions",
             title:<h1>AI Assistant</h1>,
             content: <ChatBotPage ref={chatBoxRef} handleSendMessage={handleSendMessage} handleUploadFile={handleUploadFile} loadSession={loadSession}/>
-        }             
+        }      
     ]
     const CustomInput = forwardRef(({ value, onClick }, ref) => (
         <button
@@ -149,7 +157,7 @@ function DashboardPage() {
                             </div>
                         </div>
                         <div className="dashboard-content-content">
-                            {isDocument ? sections[activeSection].content : <NoDocument handleUploadFile={(e) => {
+                            {(isDocument || activeSection === 0) ? sections[activeSection].content : <NoDocument handleUploadFile={(e) => {
                                 handleUploadFile({e, selectedDate, selectedDashboardRegion});
                                 setTimeout(() => {
                                     setRefresh(prev => !prev);
