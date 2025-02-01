@@ -60,7 +60,7 @@ const GeographicDashboard = forwardRef(({loadSession, selectedDashboardRegion, s
     <div className="geographic-dashboard">
       <RegionMap selectedRegion={selectedDashboardRegion} resultFile={resultFile} />
       <div className="geographic-legend">
-        <h1>{regionMatch[selectedDashboardRegion]}</h1>
+        <h1>{(selectedDashboardRegion === "all" || (!selectedDashboardRegion)) ? "France" : regionMatch[selectedDashboardRegion]}</h1>
           <ul className="legend-list">
             {Object.entries(returnMapping).map(([label, value]) => (
               <li key={value} className="legend-item">

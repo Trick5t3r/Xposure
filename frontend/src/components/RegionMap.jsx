@@ -66,7 +66,7 @@ const RegionMap = ({ selectedRegion, resultFile }) => {
       const regionDepartmentsData = await d3.json(regionDepartmentsUrl);
 
       let centerCoordinates = [2.2137, 46.2276]; // Par défaut, centre de la France
-      let scaleFactor = 1400; // Facteur de zoom par défaut
+      let scaleFactor = 1100; // Facteur de zoom par défaut
 
       const selectedRegionData = regionsData.features.find(
         (region) => region.properties.code === selectedRegion
@@ -89,13 +89,30 @@ const RegionMap = ({ selectedRegion, resultFile }) => {
       svg.selectAll("*").remove();
 
       if ((selectedRegion === "all") || (!selectedRegion)) {
-        svg
-          .append("text")
-          .attr("text-anchor", "middle")
-          .attr("font-size", "16px")
-          .text("All regions");
+        svg.append("g")
+          .selectAll("path")
+          .data(regionsData.features)
+          .enter()
+          .append("path")
+          .attr("d", path)
+          .attr("fill", "#26d8d8")
+          .attr("stroke", "#333")
+          .attr("stroke-width", 1.5);
+
+        svg.append("g")
+          .selectAll("path")
+          .data(departmentsData.features)
+          .enter()
+          .append("path")
+          .attr("d", path)
+          .attr("fill", d => {
+            const territoire = d.properties.nom;
+            return colorScale(territoryAverages[normalizeTerritory(territoire)] || 10);
+          })
+          .attr("stroke", "#333")
+          .attr("stroke-width", 1);
         return;
-      }
+      };
 
       if (selectedRegionData) {
         svg
