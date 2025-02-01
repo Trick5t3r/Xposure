@@ -9,7 +9,8 @@ from .models import ChatSession, BaseFile, ImageFile, ExcelFile
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .ai_files.llm_tools import pdf_to_excel
-
+import pandas as pd
+import json
 
 
 # Create your views here.
@@ -126,11 +127,32 @@ class ResultExcelFilesView(APIView):
 
             # Récupérer toutes les images liées à cette ChatSession
             files = ExcelFile.objects.filter(chatsession=chat_session, isResultFile=True, region=request.GET.get("region"), date=request.GET.get("date"))
-            serializer = BaseFilePolymorphicSerializer(files, many=False)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            json_dict = excel_to_json(files[0].file.path)
+            return Response(json_dict, status=status.HTTP_200_OK)
 
         except ChatSession.DoesNotExist:
             return Response(
                 {"detail": "ChatSession not found."},
                 status=status.HTTP_404_NOT_FOUND
             )
+        
+def excel_to_json(file_path):
+    """
+    Charge un fichier Excel et le convertit en JSON structuré.
+    
+    :param file_path: Chemin du fichier Excel (.xlsx)
+    :return: JSON sous forme de string
+    """
+    try:
+        # Charger le fichier Excel
+        df = pd.read_excel(file_path)
+        
+        # Convertir le DataFrame en une liste de dictionnaires
+        data_dict = df.to_dict(orient="records")
+        
+        # Convertir en JSON formaté
+        json_data = json.dumps(data_dict, indent=4, ensure_ascii=False)
+        
+        return json_data
+    except Exception as e:
+        return json.dumps({"erreur": str(e)}, indent=4)
