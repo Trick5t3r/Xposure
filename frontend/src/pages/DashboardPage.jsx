@@ -7,6 +7,7 @@ import ChartDashboard from '../components/ChartDashboard';
 import ChatBotPage from '../components/ChatBotPage';
 import NoDocument from '../components/NoDocument';
 import FileManagement from '../components/FileManagement';
+import PdfGeneration from '../components/PdfGeneration';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import useBackend from '../hooks/useBackend';
@@ -109,7 +110,12 @@ function DashboardPage() {
             id: "section-predictions",
             title:<h1>AI Assistant</h1>,
             content: <ChatBotPage ref={chatBoxRef} handleSendMessage={handleSendMessage} handleUploadFile={handleUploadFile} loadSession={loadSession}/>
-        }      
+        },
+        {
+            id: "section-pdf-generation",
+            title: <h1>Report Generation</h1>,
+            content: <PdfGeneration selectedDashboardRegion={selectedDashboardRegion} selectedDate={selectedDate} loadResultFile={loadResultFile}/>
+        }
     ]
     const CustomInput = forwardRef(({ value, onClick }, ref) => (
         <button

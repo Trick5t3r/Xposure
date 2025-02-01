@@ -154,6 +154,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
+# Autoriser l'affichage des fichiers dans une iframe
+X_FRAME_OPTIONS = 'SAMEORIGIN'  # Permet uniquement dans le même domaine
+
+# Si vous voulez l'autoriser depuis n'importe où (moins sécurisé)
+# X_FRAME_OPTIONS = 'ALLOWALL'
+
 
 LOGGING = {
     'version': 1,

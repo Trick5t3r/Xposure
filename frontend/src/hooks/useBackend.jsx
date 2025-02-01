@@ -166,10 +166,10 @@ const useBackend = () => {
         }
     };
 
-    const loadResultFile = async ({date, region}) => {
+    const loadResultFile = async ({date, region, report = false}) => {
         console.log("load result file");
         try {
-            const response = await api.get(`/api/resultfile/?date=${date}&region=${region}`);
+            const response = await api.get(`/api/${report ? "reportfile" : "resultfile"}/?date=${date}&region=${region}`);
 
             if (response.status === 200) {
                 return response.data;

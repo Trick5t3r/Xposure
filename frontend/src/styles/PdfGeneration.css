@@ -1,0 +1,60 @@
+@font-face {
+    font-family: "font-reg";
+    src: url(../fonts/OldschoolGrotesk-NormalBook.otf);
+}
+
+@font-face {
+    font-family: "font-bold";
+    src: url(../fonts/OldschoolGrotesk-NormalMedium.otf);
+}
+
+@font-face {
+    font-family: "font-title";
+    src: url(../fonts/RubikVinyl-Regular.ttf);
+}
+
+:root {
+    --secondary: #26d8d8e3;
+    --primary: #116d75;
+    --background: #141414;
+    --black: #000;
+    --text: #e4e4e4;
+}
+
+.pdf-generation {
+    width: 70%;
+    margin: auto;
+    margin-bottom: 40px;
+    margin-top: 50px;
+}
+
+.pdf-generation a {
+    text-decoration: none;
+    font-family: "font-reg", sans-serif;
+    font-size: 1.55rem;
+    text-align: center;
+    color: var(--background);
+}
+
+.pdf-generation a:hover {
+    text-decoration: underline;
+}
+
+.pdf-generation h2 {
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+
+.pdf-generation-loading {
+    display: flex;
+    justify-content: center;
+    margin-top: 230px;
+}
+.pdf-generation-loading p {
+    font-family: "font-reg", sans-serif;
+    font-size: 1.33rem;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}

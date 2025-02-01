@@ -3,6 +3,7 @@ import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import ClearIcon from '@mui/icons-material/Clear';
 import IconButton from "@mui/material/IconButton";
+import TableRowsIcon from '@mui/icons-material/TableRows';
 import api from "../api";
 import { useState, useEffect, useRef, forwardRef } from 'react';
 
@@ -32,9 +33,11 @@ function FileManagement({handleUploadFile, setRefresh, selectedDate, selectedDas
         api
         .get("/api/fileupload/")
         .then((res) => res.data)
+        .then((data) => data.filter(item => item.isResultFile === false))
         .then((data) => {setListFiles(data)})
         .catch((err) => alert(err));
     };
+
 
     const deleteFile = (id) => {
         api
@@ -65,10 +68,12 @@ function FileManagement({handleUploadFile, setRefresh, selectedDate, selectedDas
             <div className="file-list">
                 {sortedListFiles.map((file, index) => (
                     <div className="file-card" key={index}>
-                        <InsertDriveFileIcon className="file-management-item-icon" />
-                        <a href={file.file} download target="_blank" rel="noopener noreferrer">
-                            {file.title}
-                        </a>
+                        {file.resourcetype == "PDFFile" ? <InsertDriveFileIcon className="file-management-item-icon" /> : <TableRowsIcon className="file-management-item-icon" />}
+                        <h2>
+                            <a href={file.file} download target="_blank" rel="noopener noreferrer">
+                                {file.title}
+                            </a>
+                        </h2>
                         <p>{regionMatch[file.region]}</p>
                         <p>{file.date}</p>
                         <button className="delete-file-button" onClick={() => deleteFile(file.id)}><ClearIcon className="delete-file-icon" /></button>
@@ -118,46 +123,6 @@ function FileManagement({handleUploadFile, setRefresh, selectedDate, selectedDas
                     <span className="upload-span">Submit File</span>
                 </IconButton>
             </div>
-            
-        </div>
-    );
-    return (
-        <div className="no-document-wrapper">
-            <h1>No Document Found</h1>
-            <p>There is no document available for this period and region yet. Please select a PDF document to submit or change the time period or region by clicking on the map or on the black button.</p>
-                <IconButton
-                    color="primary"
-                    component="label"
-                    sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: "10px 15px",
-                    textAlign: "center",
-                    color: "var(--text)",
-                    backgroundColor: "var(--background)",
-                    borderRadius: "15px",
-                    border: "1px solid var(--background)",
-                    cursor: "pointer",
-                    transition: "all 0.3s ease",
-                    "&:hover": {
-                        backgroundColor: "var(--text)",
-                        color: "var(--background)",
-                        transform: "scale(1.02)",
-                    },
-                    "&:active": {
-                        transform: "scale(1)",
-                    },
-                    }}
-                >
-                    <CloudUploadOutlinedIcon className="upload-icon" />
-                    <input
-                    type="file"
-                    hidden
-                    onChange={handleUploadFile}
-                    />
-                <span className="upload-span">Upload Document</span>
-                </IconButton>
         </div>
     );
 }

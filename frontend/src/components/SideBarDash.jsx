@@ -9,6 +9,7 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import OnlinePredictionIcon from '@mui/icons-material/OnlinePrediction';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import LogoutIcon from '@mui/icons-material/Logout';
+import CreateIcon from '@mui/icons-material/Create';
 import FranceMap from '../components/FranceMap';
 import {useNavigate} from "react-router-dom";
 
@@ -19,6 +20,7 @@ const SideBarDash = ({setActiveSection, setSelectedDashboardRegion}) => {
     <a className="sidebar-link"><PublicIcon className="item-icon" />Geographic</a>,
     <a className="sidebar-link"><BarChartIcon className="item-icon" />Theme comparison</a>,
     <a className="sidebar-link"><SmartToyIcon className="item-icon" />AI Assistant</a>,
+    <a className="sidebar-link"><CreateIcon className="item-icon" />Generate report</a>,
   ]
 
   const handleClick = (index) => {

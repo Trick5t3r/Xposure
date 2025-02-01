@@ -32,13 +32,17 @@ src: url(../fonts/RubikVinyl-Regular.ttf);
     text-decoration: underline;
 }
 
-.file-management-wrapper a {
+.file-management-wrapper h2 {
     font-family: "font-bold", sans-serif;
     font-size: 1rem;
-    color: var(--background);
     cursor: pointer;
-    text-decoration: none;
 }
+
+.file-management-wrapper a {
+    text-decoration: none;
+    color: var(--background);
+}
+
 
 .file-management-wrapper a:hover {
     text-decoration: underline;

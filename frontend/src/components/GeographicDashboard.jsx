@@ -6,7 +6,7 @@ import "../styles/GeographicDashboard.css";
 import * as d3 from "d3";
 
 const GeographicDashboard = forwardRef(({loadSession, selectedDashboardRegion, selectedDate, loadResultFile}) => {
-    const [resultFile, setResultFile] = useState([]);
+  const [resultFile, setResultFile] = useState([]);
   useEffect(() => {
       loadSession();
       console.log(selectedDashboardRegion);

@@ -3,9 +3,9 @@ from django.contrib.auth.models import User
 from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import UserSerializer, ChatSessionSerializer, ChatSessionUpdateSerializer, CustomTokenObtainPairSerializer, BaseFilePolymorphicSerializer, get_or_create_last_chat_session
+from .serializers import UserSerializer, ChatSessionSerializer, ChatSessionUpdateSerializer, CustomTokenObtainPairSerializer, BaseFilePolymorphicSerializer, get_or_create_last_chat_session, PDFFileSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .models import ChatSession, BaseFile, ImageFile, ExcelFile
+from .models import ChatSession, BaseFile, ImageFile, ExcelFile, PDFFile
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .ai_files.llm_tools import pdf_to_excel
@@ -135,7 +135,37 @@ class ResultExcelFilesView(APIView):
                 {"detail": "ChatSession not found."},
                 status=status.HTTP_404_NOT_FOUND
             )
-        
+
+
+class ResultPDFFilesView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        try:
+            # Récupérer la session active
+            chat_session = get_or_create_last_chat_session(request.user)
+
+            # Filtrer les fichiers PDF par date et région
+            pdf_files = PDFFile.objects.filter(
+                chatsession=chat_session,
+                region=request.GET.get("region"),
+                date=request.GET.get("date"),
+                isResultFile=True
+            )
+
+            if not pdf_files.exists():
+                return Response({"detail": "Aucun fichier PDF trouvé."}, status=status.HTTP_404_NOT_FOUND)
+
+            # Sérialiser les fichiers trouvés
+            serializer = PDFFileSerializer(pdf_files, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except ChatSession.DoesNotExist:
+            return Response(
+                {"detail": "ChatSession non trouvée."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
 def excel_to_json(file_path):
     """
     Charge un fichier Excel et le convertit en JSON structuré.
