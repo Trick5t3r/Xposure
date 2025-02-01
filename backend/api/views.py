@@ -150,9 +150,6 @@ def excel_to_json(file_path):
         # Convertir le DataFrame en une liste de dictionnaires
         data_dict = df.to_dict(orient="records")
         
-        # Convertir en JSON formaté
-        json_data = json.dumps(data_dict, indent=4, ensure_ascii=False)
-        
-        return json_data
+        return data_dict
     except Exception as e:
         return json.dumps({"erreur": str(e)}, indent=4)

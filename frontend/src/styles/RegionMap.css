@@ -1,0 +1,34 @@
+@font-face {
+    font-family: "font-reg";
+    src: url(../fonts/OldschoolGrotesk-NormalBook.otf);
+}
+
+@font-face {
+font-family: "font-bold";
+src: url(../fonts/OldschoolGrotesk-NormalMedium.otf);
+}
+
+@font-face {
+font-family: "font-title";
+src: url(../fonts/RubikVinyl-Regular.ttf);
+}
+
+:root {
+--text: #e4e4e4;
+--background: #141414;
+--secondary: #26d8d8e3;
+--primary: #116d75;
+}
+
+.filtered-france-map-container {
+    display: flex;
+    justify-content: center;  /* Centre horizontalement */
+    align-items: center;       /* Centre verticalement */
+    background-color: var(--text); /* Ajoute un fond gris clair */
+    width: 100%;
+}
+
+.filtered-france-map {
+    width: 500px;
+    height: 300px;
+}
