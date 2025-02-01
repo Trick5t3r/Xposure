@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef, forwardRef } from 'react';
 import api from "../api";
 import SideBarDash from '../components/SideBarDash';
@@ -22,7 +21,7 @@ function DashboardPage() {
     const [isDocument, setIsDocument] = useState(false);
     const [refresh, setRefresh] = useState(false);
 
-    const { messages, files, datas, status, sendMessage, handleUploadFile, loadSession } = useBackend();
+    const { messages, files, datas, status, sendMessage, handleUploadFile, loadSession, loadResultFile } = useBackend();
     const [listFiles, setListFiles] = useState([]);
 
     useEffect(() => {
@@ -47,9 +46,7 @@ function DashboardPage() {
             return boolDate && (file.region == selectedDashboardRegion);
         }      
     });
-    console.log("region", selectedDashboardRegion);
-    console.log("date", selectedDate.toISOString().slice(0, 7));
-    console.log(listFiles);
+
     useEffect(() => {
         if (fileExists) {
             setIsDocument(true);
@@ -78,9 +75,6 @@ function DashboardPage() {
         if (chatBoxRef.current) {
             chatBoxRef.current.setMessages(messages);
         }
-        if (geographicDashboardRef.current) {
-            geographicDashboardRef.current.setDatas(datas);
-        }
     }, [messages, datas]);
 
     const handleSendMessage = (input) => {
@@ -104,12 +98,12 @@ function DashboardPage() {
         {
             id: "section-analyses",
             title: <h1>Geographic Analysis</h1>,
-            content: <GeographicDashboard ref={geographicDashboardRef} loadSession={loadSession} selectedRegion={selectedDashboardRegion} />
+            content: <GeographicDashboard loadSession={loadSession} selectedDashboardRegion={selectedDashboardRegion} selectedDate={selectedDate} loadResultFile={loadResultFile}/>
         },
         {
             id: "section-relations-causales",
             title: <h1>Theme Comparison</h1>,
-            content: <ChartDashboard />
+            content: <ChartDashboard selectedDashboardRegion={selectedDashboardRegion} selectedDate={selectedDate} loadResultFile={loadResultFile}/>
         },
         {
             id: "section-predictions",

@@ -21,3 +21,57 @@ src: url(../fonts/RubikVinyl-Regular.ttf);
 --text: #e4e4e4;
 }
 
+.geographic-dashboard {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.geographic-legend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.geographic-legend h1 {
+    font-family: "font-reg", sans-serif;
+    font-size: 1.69rem;
+    margin: 0;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.legend-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    margin: 0;
+    margin-top: 30px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap; /* 🔴 Permet aux éléments de revenir à la ligne */
+    gap: 30px; /* 🔴 Ajoute un espace entre les éléments */
+    width: 80%;
+}
+
+.legend-item {
+    font-family: "font-reg", sans-serif;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin-bottom: 8px;
+    white-space: nowrap; /* 🔴 Empêche le texte de se couper */
+}
+
+.color-box {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-right: 10px;
+    border: 1px solid #333;
+    margin-bottom: 4px;
+}

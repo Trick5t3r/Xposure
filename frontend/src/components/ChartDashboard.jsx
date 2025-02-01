@@ -1,5 +1,6 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
+import { useState, useEffect } from "react";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import "../styles/ChartDashboard.css";
 
@@ -7,7 +8,8 @@ import "../styles/ChartDashboard.css";
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 // ["Négatif", "Factuel négatif", "Factuel", "Factuel positif", "Positif"]
 // [30, 50, 20, 100, 13]
-const ChartDashboard = () => {
+const ChartDashboard = ({selectedDashboardRegion, selectedDate, loadResultFile}) => {
+    const [resultFile, setResultFile] = useState([]);
     const themes = [
         "Transition écologique",
         "Linky",
@@ -38,19 +40,58 @@ const ChartDashboard = () => {
         "#463C3C",
         "#1423DC"
     ];
-    const fake_data = {
-        "Négatif": 30,
-        "Factuel négatif": 50,
-        "Factuel": 20,
-        "Factuel positif": 100,
-        "Positif": 13
+    const retours = [
+        "Négatif",
+        "Négatif nuancé",
+        "Factuel négatif",
+        "Factuel",
+        "Factuel positif",
+        "Positif nuancé",
+        "Positif"
+    ];
+    const dashboardRegion = (selectedDashboardRegion === "all" || (!selectedDashboardRegion)) ? -1 : selectedDashboardRegion;
+    const dashboardDate = selectedDate.toISOString().slice(0, 7);
+    useEffect(() => {
+        loadResultFile({date: dashboardDate, region: dashboardRegion}).then((result) => {
+            setResultFile(result);
+        })
+        .catch((error) => {
+            console.error("Erreur lors de la récupération :", error);
+        });
+    }, [selectedDashboardRegion, selectedDate]);
+
+    const generateRandomData = (retours) => {
+        const obj = {};
+        retours.forEach(retour => {
+            obj[retour] = Math.floor(Math.random() * 100); // Valeur aléatoire entre 0 et 100
+        });
+        return obj;
     };
+
+    const computeThemeStats = (data, themes, retours) => {
+        let stats = themes.map(theme => ({
+            theme,
+            content: Object.fromEntries(retours.map(retour => [retour, 0]))
+        }));
+    
+        let statsMap = Object.fromEntries(stats.map(item => [item.theme, item.content]));
+    
+        data.forEach(({ "Thème": theme, "Qualité du retour": retour }) => {
+            if (statsMap[theme] && statsMap[theme][retour] !== undefined) {
+                statsMap[theme][retour]++;
+            }
+        });
+    
+        return stats;
+    };
+
     const data = themes.map((theme) => {
         return {
             "theme": theme,
-            "content": fake_data
+            "content": generateRandomData(retours)
         }
     });
+    // const data = computeThemeStats(resultFile, themes, retours);
 
     const ChartComponents = ({ jsonData, title, color }) => {
         const labels = Object.keys(jsonData);
