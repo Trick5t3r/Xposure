@@ -90,8 +90,8 @@ class BaseFileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BaseFile
-        fields = ['id', 'title', 'chatsession', 'file', 'created_at', 'date', 'region']
-        read_only_fields = ['id', 'title', 'chatsession', 'created_at']
+        fields = ['id', 'title', 'chatsession', 'file', 'created_at', 'date', 'region', 'isResultFile']
+        read_only_fields = ['id', 'title', 'chatsession', 'created_at', 'isResultFile']
 
     def validate(self, attrs):
         request = self.context.get('request')

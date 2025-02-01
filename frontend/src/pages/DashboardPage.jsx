@@ -104,7 +104,7 @@ function DashboardPage() {
         {
             id: "section-analyses",
             title: <h1>Geographic Analysis</h1>,
-            content: <GeographicDashboard ref={geographicDashboardRef} />
+            content: <GeographicDashboard ref={geographicDashboardRef} loadSession={loadSession} selectedRegion={selectedDashboardRegion} />
         },
         {
             id: "section-relations-causales",

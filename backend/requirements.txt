@@ -29,3 +29,7 @@ uvloop==0.21.0
 watchfiles==1.0.4
 openpyxl
 pymupdf
+aioboto3
+boto3
+aiobotocore
+pandas

@@ -22,3 +22,5 @@ logs/
 node_modules/
 
 build/
+
+credentials

@@ -51,7 +51,14 @@ cd Xposure
 
 2. Modifiez les variables d'environnement dans le fichier `.env` pour y inclure les clés d'API, les mots de passe, et autres configurations spécifiques.
 
-3. Vérifié qu'un fichier vide `db.sqlite3` existe dans le repertoire `/backend`, sinon (pour Linux):
+3. Copiez le fichier d'exemple `.credentials` :
+   ```bash
+   cp backend/.aws/credentials.example backend/.aws/credentials
+   ```
+
+4. Modifiez les variables d'environnement dans le fichier `credentials` pour y inclure les clés d'API.
+
+5. Vérifié qu'un fichier vide `db.sqlite3` existe dans le repertoire `/backend`, sinon (pour Linux):
    ```bash
    nano backend/db.sqlite3
    ```

@@ -7,6 +7,10 @@ WORKDIR /app
 # Copier le code source
 COPY backend /app
 
+# AWS set up
+RUN mkdir -p /root/.aws
+COPY backend/.aws /root/.aws
+
 # Copier les dépendances et les installer
 RUN pip install -r /app/requirements.txt
 
