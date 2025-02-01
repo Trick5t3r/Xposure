@@ -1,0 +1,103 @@
+@font-face {
+    font-family: "font-reg";
+    src: url(../fonts/OldschoolGrotesk-NormalBook.otf);
+}
+
+@font-face {
+font-family: "font-bold";
+src: url(../fonts/OldschoolGrotesk-NormalMedium.otf);
+}
+
+@font-face {
+font-family: "font-title";
+src: url(../fonts/RubikVinyl-Regular.ttf);
+}
+
+:root {
+--secondary: #26d8d8e3;
+--primary: #116d75;
+--background: #141414;
+--black: #000;
+--text: #e4e4e4;
+}
+
+.file-management-wrapper {
+    margin: 0 50px;
+}
+
+.file-management-wrapper h1 {
+    font-family: "font-reg", sans-serif;
+    font-size: 1.33rem;
+    color: var(--background);
+    text-decoration: underline;
+}
+
+.file-management-wrapper h2 {
+    font-family: "font-reg", sans-serif;
+    font-size: 1rem;
+    color: var(--background);
+}
+
+.file-management-wrapper p {
+    font-family: "font-reg", sans-serif;
+    font-size: 1rem;
+    color: var(--background);
+    margin: 0 20px;
+}
+
+.file-management-item-icon {
+    margin-bottom: 5px;
+}
+.file-card {
+    margin-left: 30px;
+    gap: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.delete-file-button {
+    padding: 2px 2px 0 2px ;
+    border-radius: 50%;
+    border: 1px solid var(--background);
+    background-color: var(--background);
+    color: var(--text);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    user-select: none;
+}
+
+.delete-file-button:hover {
+    background-color: var(--text);
+    color: var(--background);
+}
+
+.submit-wrapper {
+    margin: auto;
+    margin-top: 100px;
+    width: 300px;
+}
+
+.submit-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.submit-wrapper h3 {
+    font-family: "font-reg", sans-serif;
+    font-size: 1.33rem;
+    color: var(--background);
+    margin: 0;
+    padding: 0;
+}
+
+.submit-wrapper p {
+    font-family: "font-reg", sans-serif;
+    text-align: center;
+    font-size: 1rem;
+    color: var(--background);
+    margin: 0;
+    padding: 0;
+}
