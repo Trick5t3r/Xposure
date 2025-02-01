@@ -66,7 +66,9 @@ function FileManagement({handleUploadFile, setRefresh, selectedDate, selectedDas
                 {sortedListFiles.map((file, index) => (
                     <div className="file-card" key={index}>
                         <InsertDriveFileIcon className="file-management-item-icon" />
-                        <h2>{file.title}</h2>
+                        <a href={file.file} download target="_blank" rel="noopener noreferrer">
+                            {file.title}
+                        </a>
                         <p>{regionMatch[file.region]}</p>
                         <p>{file.date}</p>
                         <button className="delete-file-button" onClick={() => deleteFile(file.id)}><ClearIcon className="delete-file-icon" /></button>
