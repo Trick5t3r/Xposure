@@ -5,7 +5,7 @@ from django.utils.timezone import now
 import os
 from PIL import Image
 from polymorphic.models import PolymorphicModel
-from .ai_files.excel_tools import complete_excel
+from .ai_files.excel_tools import complete_excel, generate_pdf_result
 import stat
 
 import pandas as pd
@@ -140,6 +140,36 @@ class ExcelFile(BaseFile):
             os.chmod(file_path, stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IWGRP | stat.S_IROTH | stat.S_IWOTH)
             if self.isResultFile:
                 complete_excel(file_path)
+                
+                # Vérifier s'il existe déjà un fichier pour ces critères
+                try:
+                    result_pdf_file = PDFFile.objects.filter(
+                        chatsession=self.chatsession,
+                        date=self.date,
+                        region=self.region,
+                        isResultFile=True
+                    ).latest("created_at")  # Prendre le dernier fichier créé
+
+                except PDFFile.DoesNotExist:
+                    # Aucun fichier trouvé, on le crée
+                    result_pdf_file = PDFFile.objects.create(
+                        chatsession=self.chatsession,
+                        date=self.date,
+                        region=self.region,
+                        isResultFile=True
+                    )
+
+                # Générer le PDF temporaire
+                temp_pdf_path = generate_pdf_result(file_path)
+
+                # Sauvegarder le fichier dans l'objet PDFFile
+                with open(temp_pdf_path, "rb") as f:
+                    result_pdf_file.file.save(f"result_pdf_{self.date}_{self.region}.pdf", ContentFile(f.read()))
+
+                # Supprimer le fichier temporaire
+                os.remove(temp_pdf_path)
+                result_pdf_file.save()
+           
             else:
                 get_or_create_result_excel(self)
 
