@@ -5,7 +5,7 @@ from django.utils.timezone import now
 import os
 from PIL import Image
 from polymorphic.models import PolymorphicModel
-from .ai_files.excel_tools import complete_excel
+from .ai_files.excel_tools import complete_excel, generate_pdf_result
 import stat
 
 import pandas as pd
@@ -28,7 +28,7 @@ def get_or_create_result_excel(self):
     except ExcelFile.DoesNotExist:
         # Créer un fichier Excel vide avec les en-têtes
         temp_path = f"/tmp/result_{self.date}_{self.region}.xlsx"
-        headers = ["Territoire", "Sujet", "Thème", "Qualité du retour", "Média", "Article"]
+        headers = ["Date", "Territoire", "Sujet", "Thème", "Qualité du retour", "Média", "Articles"]
         df_empty = pd.DataFrame(columns=headers)
         df_empty.to_excel(temp_path, index=False)  # Désactiver l'inclusion de l'index
 
@@ -61,10 +61,8 @@ def get_or_create_result_excel(self):
         df_result = pd.read_excel(result_file.file.path, index_col=None)  # Pas d'index inutile
     else:
         df_result = pd.DataFrame(columns=headers)
-    logging.info(df_result)
-    logging.info(df_new)
     # Vérifier que les colonnes sont bien alignées avant de concaténer
-    df_new.columns = ["Territoire", "Sujet", "Thème", "Qualité du retour", "Média", "Article"]
+    df_new.columns = ["Date", "Territoire", "Sujet", "Thème", "Qualité du retour", "Média", "Articles"]
     if not df_new.empty:
         df_new = df_new[df_result.columns]  # Aligner les colonnes avec le fichier existant
     
@@ -142,6 +140,36 @@ class ExcelFile(BaseFile):
             os.chmod(file_path, stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IWGRP | stat.S_IROTH | stat.S_IWOTH)
             if self.isResultFile:
                 complete_excel(file_path)
+
+                # Générer le PDF temporaire
+                temp_pdf_path = generate_pdf_result(file_path)
+                
+                # Vérifier s'il existe déjà un fichier pour ces critères
+                try:
+                    result_pdf_file = PDFFile.objects.filter(
+                        chatsession=self.chatsession,
+                        date=self.date,
+                        region=self.region,
+                        isResultFile=True
+                    ).latest("created_at")  # Prendre le dernier fichier créé
+
+                except PDFFile.DoesNotExist:
+                    # Aucun fichier trouvé, on le crée
+                    result_pdf_file = PDFFile.objects.create(
+                        chatsession=self.chatsession,
+                        date=self.date,
+                        region=self.region,
+                        isResultFile=True
+                    )
+
+                # Sauvegarder le fichier dans l'objet PDFFile
+                with open(temp_pdf_path, "rb") as f:
+                    result_pdf_file.file.save(f"result_pdf_{self.date}_{self.region}.pdf", ContentFile(f.read()))
+
+                # Supprimer le fichier temporaire
+                os.remove(temp_pdf_path)
+                result_pdf_file.save()
+           
             else:
                 get_or_create_result_excel(self)
 

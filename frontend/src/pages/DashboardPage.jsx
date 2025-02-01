@@ -78,8 +78,7 @@ function DashboardPage() {
     }, [messages, datas]);
 
     const handleSendMessage = (input) => {
-        const newMessage = { role: "user", content: input.message, context: { files: input.files } };
-
+        const newMessage = { role: "user", content: input.message, context: { files: input.files, date:selectedDate.toISOString().slice(0, 7), region:((selectedDashboardRegion === "all") || !(selectedDashboardRegion)) ? -1 : selectedDashboardRegion } };
         // Mettre à jour localement les messages dans ChatSidebar
         if (chatBoxRef.current) {
             chatBoxRef.current.setMessages((prevMessages) => [...prevMessages, newMessage]);

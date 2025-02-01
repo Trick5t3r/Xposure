@@ -49,7 +49,7 @@ cd Xposure
    cp backend/.env.example backend/.env
    ```
 
-2. Modifiez les variables d'environnement dans le fichier `.env` pour y inclure les clés d'API, les mots de passe, et autres configurations spécifiques.
+2. Modifiez les variables d'environnement dans le fichier `.env` pour y inclure les clés d'API, les mots de passe, et autres configurations spécifiques. (NB: il n'est plus utile de mettre une celf API Mistral)
 
 3. Copiez le fichier d'exemple `.credentials` :
    ```bash
