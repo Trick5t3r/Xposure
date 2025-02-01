@@ -98,7 +98,7 @@ function DashboardPage() {
     const sections = [
         {
             id: "section-file-management",
-            title: <h1>File Management</h1>,
+            title: <h1>Welcome Enedis !</h1>,
             content: <FileManagement handleUploadFile={handleUploadFile} setRefresh={setRefresh} selectedDate={selectedDate} selectedDashboardRegion={selectedDashboardRegion}/>
         },    
         {
