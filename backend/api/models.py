@@ -28,7 +28,7 @@ def get_or_create_result_excel(self):
     except ExcelFile.DoesNotExist:
         # Créer un fichier Excel vide avec les en-têtes
         temp_path = f"/tmp/result_{self.date}_{self.region}.xlsx"
-        headers = ["Territoire", "Sujet", "Thème", "Qualité du retour", "Média", "Article"]
+        headers = ["Date", "Territoire", "Sujet", "Thème", "Qualité du retour", "Média", "Articles"]
         df_empty = pd.DataFrame(columns=headers)
         df_empty.to_excel(temp_path, index=False)  # Désactiver l'inclusion de l'index
 
@@ -61,10 +61,8 @@ def get_or_create_result_excel(self):
         df_result = pd.read_excel(result_file.file.path, index_col=None)  # Pas d'index inutile
     else:
         df_result = pd.DataFrame(columns=headers)
-    logging.info(df_result)
-    logging.info(df_new)
     # Vérifier que les colonnes sont bien alignées avant de concaténer
-    df_new.columns = ["Territoire", "Sujet", "Thème", "Qualité du retour", "Média", "Article"]
+    df_new.columns = ["Date", "Territoire", "Sujet", "Thème", "Qualité du retour", "Média", "Articles"]
     if not df_new.empty:
         df_new = df_new[df_result.columns]  # Aligner les colonnes avec le fichier existant
     

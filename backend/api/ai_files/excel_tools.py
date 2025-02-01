@@ -1,5 +1,6 @@
 #ne pas faire d'import circular
 from openpyxl import load_workbook
+from .classifier import theme_classifier, sentiment_classifier
 
 import logging
 
@@ -13,7 +14,7 @@ def complete_excel(file_path):
     ws = wb.active
 
     # Définir les en-têtes de colonnes attendus
-    headers = ["Territoire", "Sujet", "Thème", "Qualité du retour", "Média", "Article"]
+    headers = ["Date", "Territoire", "Sujet", "Thème", "Qualité du retour", "Média", "Articles"]
     
     # Trouver l’index des colonnes en fonction des en-têtes
     header_row = list(ws.iter_rows(min_row=1, max_row=1, values_only=True))[0]  # Première ligne
@@ -24,7 +25,17 @@ def complete_excel(file_path):
         for header, col_idx in header_indices.items():
             cell = row[col_idx]  # Récupérer la cellule correspondant à la colonne
             if cell.value is None or str(cell.value).strip() == "":
-                cell.value = "1"  # Remplacer les valeurs vides par None
+                #cell.value = "1"  # Remplacer les valeurs vides par None
+                if headers[col_idx] == "Thème":
+                    article = {}
+                    article["Date"] = str(row[header_indices['Date']].value).strip()
+                    article["Territoire"] = str(row[header_indices['Territoire']].value).strip()
+                    article["Sujet"] = str(row[header_indices['Sujet']].value).strip()
+                    article["Média"] = str(row[header_indices['Média']].value).strip()
+                    article["Articles"] = str(row[header_indices['Articles']].value).strip()
+                    cell.value = theme_classifier(article)['Thème']
+                if headers[col_idx] == "Qualité du retour":
+                    cell.value = sentiment_classifier(str(row[header_indices['Articles']].value).strip())
 
     # Sauvegarder les modifications
     wb.save(file_path)
