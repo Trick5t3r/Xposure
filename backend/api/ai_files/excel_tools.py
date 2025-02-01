@@ -19,10 +19,15 @@ def complete_excel(file_path):
     # Trouver l’index des colonnes en fonction des en-têtes
     header_row = list(ws.iter_rows(min_row=1, max_row=1, values_only=True))[0]  # Première ligne
     header_indices = {header: i for i, header in enumerate(header_row) if header in headers}
+    theme_qr = ["Thème", "Qualité du retour"]
+    theme_qr_indices = {header: i for i, header in enumerate(header_row) if header in theme_qr}
 
     # Vérifier chaque ligne (à partir de la 2ème, car la 1ère est l’en-tête)
+    i = 0
     for row in ws.iter_rows(min_row=2, max_row=ws.max_row):
-        for header, col_idx in header_indices.items():
+        i+=1
+        logging.info(i/ws.max_row)
+        for header, col_idx in theme_qr_indices.items():
             cell = row[col_idx]  # Récupérer la cellule correspondant à la colonne
             if cell.value is None or str(cell.value).strip() == "":
                 #cell.value = "1"  # Remplacer les valeurs vides par None
