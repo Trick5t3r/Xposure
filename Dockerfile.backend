@@ -4,6 +4,8 @@ FROM python:3.10.12-slim
 # Définir le répertoire de travail
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y libgl1-mesa-glx libglib2.0-0 tesseract-ocr
+
 # Copier le code source
 COPY backend /app
 

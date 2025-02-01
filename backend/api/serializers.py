@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import ChatSession
 from .models import BaseFile, PDFFile, ImageFile, OtherFile
-from .ai_files.llm_discussion import reponse_llm, interaction_llm
+#from .ai_files.llm_discussion import reponse_llm, interaction_llm
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from rest_polymorphic.serializers import PolymorphicSerializer
@@ -68,12 +68,12 @@ class ChatSessionUpdateSerializer(serializers.ModelSerializer):
         new_messages = validated_data.get("messages")
         if new_messages:
             instance.messages.extend(new_messages)  # Ajouter au tableau existant
-            self.treat_the_message(instance, new_messages)
+            #self.treat_the_message(instance, new_messages)
         instance.save()
         return instance
     
-    def treat_the_message(self, instance, new_messages):
-        interaction_llm(instance)
+    #def treat_the_message(self, instance, new_messages):
+    #    interaction_llm(instance)
    
 
 class ChatSessionUpdateSerializerAsync(serializers.ModelSerializer):

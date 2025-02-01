@@ -13,7 +13,7 @@ def complete_excel(file_path):
     ws = wb.active
 
     # Définir les en-têtes de colonnes attendus
-    headers = ["Territoire", "Sujet", "Thème", "Qualité du retour", "Média", "Article"]
+    headers = ["Date", "Territoire", "Sujet", "Thème", "Qualité du retour", "Média", "Article"]
     
     # Trouver l’index des colonnes en fonction des en-têtes
     header_row = list(ws.iter_rows(min_row=1, max_row=1, values_only=True))[0]  # Première ligne

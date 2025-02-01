@@ -33,3 +33,7 @@ aioboto3
 boto3
 aiobotocore
 pandas
+pytesseract
+opencv-python
+beautifulsoup4
+numpy
