@@ -112,7 +112,7 @@ def pdf_to_excel(pdfFile_serializer):
     for page_num in range(1, len(doc)):  # Commence à 1 pour ignorer la première page
         page = doc[page_num]
         text = page.get_text("text")  # Extraction du texte brut
-        extracted_data.append(["0", "0", "", "", "0", text])  # Colonnes vides + article
+        extracted_data.append(["0", "0", "0", "", "", "0", text])  # Colonnes vides + article
 
     # Création d'un fichier Excel vide avec une feuille nommée "Articles"
     wb = Workbook()
@@ -120,7 +120,7 @@ def pdf_to_excel(pdfFile_serializer):
     ws.title = "Articles"
 
     # Ajout des en-têtes
-    headers = ["Territoire", "Sujet", "Thème", "Qualité du retour", "Média", "Article"]
+    headers = ["Date", "Territoire", "Sujet", "Thème", "Qualité du retour", "Média", "Articles"]
     ws.append(headers)
 
     # Remplissage du fichier Excel avec les données extraites
