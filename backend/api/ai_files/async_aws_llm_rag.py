@@ -89,6 +89,7 @@ async def search_documents(query, index_name="knowledge_base"):
 async def generate_knowledge_base_prompt(query, excel_file):
     #await index_excel_to_opensearch(excel_file)  # Indexe si ce n'est pas encore fait
     df = pd.read_excel(excel_file)
+    df = df.astype(str)
     documents = df.to_dict(orient="records")#await search_documents(query)
 
     if documents:
