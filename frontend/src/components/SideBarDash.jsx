@@ -17,8 +17,8 @@ const SideBarDash = ({setActiveSection, setSelectedDashboardRegion}) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const items = [
     <a className="sidebar-link"><AttachFileIcon className="item-icon" />Files management</a>,
-    <a className="sidebar-link"><PublicIcon className="item-icon" />Geographic</a>,
-    <a className="sidebar-link"><BarChartIcon className="item-icon" />Theme comparison</a>,
+    <a className="sidebar-link"><PublicIcon className="item-icon" />Geo Analysis</a>,
+    <a className="sidebar-link"><BarChartIcon className="item-icon" />Statistics</a>,
     <a className="sidebar-link"><SmartToyIcon className="item-icon" />AI Assistant</a>,
     <a className="sidebar-link"><CreateIcon className="item-icon" />Generate report</a>,
   ]
