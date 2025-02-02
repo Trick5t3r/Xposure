@@ -1,6 +1,6 @@
 # Xposure - Analyse de l'image de marque pour Enedis
 
-Xposure est une application développée par une équipe de Polytechniciens (X), conçue pour agréger des ressources médias et fournir des analyses approfondies de l'image de marque d'Engie.
+Xposure est une application développée par une équipe de Polytechniciens (X), conçue pour agréger des ressources médias et fournir des analyses approfondies de l'image de marque d'Enedis.
 
 ---
 
