@@ -171,7 +171,7 @@ Des algos de classification, prétraitement et post traitement de pdf, un systè
 ### Algos de génération de pdf
 - **Datas** : Utilisation du fichier Excel comme données d'entrée
 - **Génération structure** : Génération de la structure du pdf, et des graphes
-- **Génération contenu** : Génération du contenu du pdf, réalisation d'une analyse et interprétation de chaque graphe puis d'une synthèse globale.
+- **Génération contenu** : Génération du contenu du pdf, réalisation d'une analyse et interprétation de chaque graphe puis d'une synthèse globale, en utilisant un LLM multimodal.
 
 ### IA Assistant : Algos du système RAG (Retrieval-Augmented Generation)
 Tout d'abord l'ai assistant reçoit un prompt.
