@@ -4,6 +4,14 @@ Xposure est une application développée par une équipe de Polytechniciens (X),
 
 ---
 
+## Table des matières
+
+- [Introduction](#introduction)
+- [Configuration](#configuration)
+- [Objectifs du projet](#objectifs-du-projet)
+---
+# Introduction
+
 ## Fonctionnalités principales
 
 ### **Backend Django**
