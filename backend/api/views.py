@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import ChatSession, BaseFile, ImageFile, ExcelFile, PDFFile
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from .ai_files.llm_tools import pdf_to_excel
+from .ai_files.pdf_extraction import pdf_to_excel
 import pandas as pd
 import json
 
