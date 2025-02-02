@@ -73,10 +73,12 @@ cd Xposure
 
 2. Ajoutez l'URL backend dans le fichier `.env`.
 3. Mettre votre url dans les fichiers de conf ci-après:
-   - ```bash
+   - **Modifier la conf nginx**
+   ```bash
    nano nginx/nginx.conf
    ```
-   - ```bash
+   - **Modifier la conf django**
+   ```bash
    nano backend/backend/settings.py
    ```
 
