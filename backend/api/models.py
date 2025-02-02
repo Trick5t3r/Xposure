@@ -12,6 +12,9 @@ import pandas as pd
 from django.core.files.base import ContentFile
 from django.core.exceptions import MultipleObjectsReturned
 
+from .ai_files.rag.sync import start_ingestion_job
+from .ai_files.rag.upload_pdf import upload_to_s3
+
 
 import logging
 
@@ -169,6 +172,10 @@ class ExcelFile(BaseFile):
                 # Supprimer le fichier temporaire
                 os.remove(temp_pdf_path)
                 result_pdf_file.save()
+
+                upload_to_s3(result_pdf_file.file.path, f"result_pdf_{self.date}_{self.region}.pdf")
+                upload_to_s3(file_path, f"result_{self.date}_{self.region}.xlsx")
+                start_ingestion_job()
            
             else:
                 get_or_create_result_excel(self)

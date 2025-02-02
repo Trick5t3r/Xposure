@@ -14,6 +14,3 @@ def start_ingestion_job():
     return response
 
 
-if __name__ == "__main__":
-    response = start_ingestion_job()
-    print(response)

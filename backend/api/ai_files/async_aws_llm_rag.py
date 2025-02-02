@@ -14,6 +14,7 @@ from ..models import ExcelFile
 #from opensearchpy import OpenSearch, RequestsHttpConnection, AWSV4SignerAuth
 import pandas as pd
 import json
+from .rag.rag import get_knowledge_base
 
 # Charger les variables d’environnement
 load_dotenv()
@@ -86,27 +87,20 @@ async def search_documents(query, index_name="knowledge_base"):
     return [hit["_source"] for hit in response["hits"]["hits"]]"""
 
 # Génération d'un prompt RAG pour Bedrock
-async def generate_knowledge_base_prompt(query, excel_file):
-    #await index_excel_to_opensearch(excel_file)  # Indexe si ce n'est pas encore fait
-    df = pd.read_excel(excel_file)
-    df = df.astype(str)
-    documents = df.to_dict(orient="records")#await search_documents(query)
+async def generate_knowledge_base_prompt(query):
 
-    if documents:
-        context = json.dumps(documents, indent=2, ensure_ascii=False)
-        prompt = f"""
-        Tu es un assistant intelligent utilisant une base de connaissances.
-        Voici des informations trouvées dans la base de données :
+    context = get_knowledge_base(query)
+    prompt = f"""
+    Tu es un assistant intelligent utilisant une base de connaissances.
+    Voici des informations trouvées dans la base de données :
 
-        {context}
+    {context}
 
-        Question :
-        {query}
+    Question :
+    {query}
 
-        Réponse :
-        """
-    else:
-        prompt = f"Je n'ai trouvé aucune donnée pertinente pour répondre à cette question : {query}"
+    Réponse :
+    """
 
     return prompt
 
