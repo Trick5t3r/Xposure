@@ -166,6 +166,24 @@ class ResultPDFFilesView(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
 
+class ResultObjectExcelFilesView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        try:
+            # Vérifier si la ChatSession existe
+            chat_session = get_or_create_last_chat_session(request.user) #ChatSession.objects.get(pk=chatsession_id)
+
+            # Récupérer toutes les images liées à cette ChatSession
+            files = ExcelFile.objects.filter(chatsession=chat_session, isResultFile=True, region=request.GET.get("region"), date=request.GET.get("date"))
+            return Response(files[0].file.path, status=status.HTTP_200_OK)
+
+        except ChatSession.DoesNotExist:
+            return Response(
+                {"detail": "ChatSession not found."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
 def excel_to_json(file_path):
     """
     Charge un fichier Excel et le convertit en JSON structuré.
