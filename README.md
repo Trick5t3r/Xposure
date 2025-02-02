@@ -172,7 +172,19 @@ Ensuite, parmi les dépassements proposés, on a pu atteindre:
 Des algos de classification, prétraitement et post traitement de pdf, un système rag
 
 ### Algos de classification
-- **Prompting d'un LLM**: En utilisant les informations présentes, réalisation d'un prompt à un LLM afin de classer l'article (Qualité du retour, Thème). Les prompts employés ont été établit par l'analyse des données, Chaine of thought, formatage des données d'entrée.
+
+- **Prompting d'un LLM** : En utilisant les informations disponibles, un prompt est construit pour un LLM afin de classer l'article selon différents critères (**Qualité du retour**, **Thème**).  
+  Les prompts utilisés ont été établis à partir de l'analyse des données, en appliquant des techniques comme **Chain of Thought** et un formatage adapté des données d'entrée:
+
+  - **Construction du prompt :**
+    - Définir la tâche  
+    - Définition d'Enedis  
+    - Situations où Enedis est responsable et situations où elle ne l'est pas  
+    - L'article à analyser  
+    - Chaîne de réflexion (**Chain of Thought**)  
+    - Définition des critères : faits factuels, aspects positifs et négatifs  
+    - **Important** : à la fin, préciser que l'IA doit prendre en compte **l'importance de l'énergie dans la vie des utilisateurs** et relativiser les événements.  
+
 
 - **Tentatives**: On a tenté d'implémenter un modèle BERT Finetuné mais les résultats étaient moins bon (convergeait vers le classifier de base)
 
