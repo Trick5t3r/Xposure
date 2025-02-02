@@ -65,7 +65,7 @@ src: url(../fonts/RubikVinyl-Regular.ttf);
     gap: 10px;
     overflow-y: auto;
     height: 35vh;
-    width: 50%;
+    width: 60%;
     min-width: 600px;
 }
 
