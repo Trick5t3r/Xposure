@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import * as d3 from "d3";
 import "../styles/FranceMap.css";
 import "../styles/RegionMap.css";
@@ -10,6 +10,13 @@ const RegionMap = ({ selectedRegion, resultFile }) => {
   const regionDepartmentsUrl = "/france/region-departement.json";
   const width = 500;
   const height = 300;
+  function normalizeString(str) {
+    return str
+        .normalize("NFD")
+        .replace(/[̀-ͯ]/g, "")
+        .replace(/[-\s\/']/g, "") // Ajout de l'apostrophe ici
+        .toLowerCase();
+  };
 
   const returnMapping = {
     "Négatif": -3,
@@ -20,10 +27,23 @@ const RegionMap = ({ selectedRegion, resultFile }) => {
     "Positif nuancé": 2,
     "Positif": 3
   };
+  const returnMatch = {
+    "negatif": "Négatif",
+    "negatifnuance": "Négatif nuancé",
+    "factuelnegatif": "Factuel négatif",
+    "factuel": "Factuel",
+    "factuelpositif": "Factuel positif",
+    "positifnuance": "Positif nuancé",
+    "positif": "Positif"
+  };
 
   const normalizeTerritory = (territory) => {
     if (!territory) return "";
-    return territory.toLowerCase().replace(/\s|-/g, ""); //  Met en minuscules et supprime espaces/tirets
+    return territory
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[-\s\/']/g, "")
+    .toLowerCase();;
   };
 
   console.log("resultFile", resultFile);
@@ -32,17 +52,17 @@ const RegionMap = ({ selectedRegion, resultFile }) => {
     const territoryScores = {};
   
     resultFile.forEach(({ Territoire, "Qualité du retour": retour }) => {
-      if (!Territoire || !returnMapping[retour]) {
-        console.log("Territoire DB", normalizeTerritory(Territoire));
+      if (!Territoire || !returnMapping[returnMatch[normalizeString(retour)]]) {
         return;
       };
-  
+      console.log("retour", returnMapping[returnMatch[normalizeString(retour)]]);
+      console.log("Territoire", normalizeTerritory(Territoire));
       if (!territoryScores[normalizeTerritory(Territoire)]) {
         territoryScores[normalizeTerritory(Territoire)] = { total: 0, count: 0 };
       }
 
       // Ajouter la valeur correspondante à la Qualité du retour
-      territoryScores[normalizeTerritory(Territoire)].total += returnMapping[retour];
+      territoryScores[normalizeTerritory(Territoire)].total += returnMapping[returnMatch[normalizeString(retour)]];
       territoryScores[normalizeTerritory(Territoire)].count += 1;
     });
     // Calculer la moyenne
@@ -50,6 +70,7 @@ const RegionMap = ({ selectedRegion, resultFile }) => {
     Object.keys(territoryScores).forEach(territory => {
       territoryAverages[territory] = Math.round(territoryScores[territory].total / territoryScores[territory].count);
     });
+    console.log("territoryAverages", territoryAverages);
 
     return territoryAverages;
   };
@@ -59,6 +80,7 @@ const RegionMap = ({ selectedRegion, resultFile }) => {
   .range(["#8B0000", "#D73027", "#FC8D59", "#FEE08B", "#D9EF8B", "#91CF60", "#1A9850", "#e4e4e4"]);
   
   const territoryAverages = computeAverageReturnByTerritory(resultFile);
+  
   useEffect(() => {
     const loadGeoJson = async () => {
       const regionsData = await d3.json(regionsGeoJsonUrl);
@@ -142,7 +164,6 @@ const RegionMap = ({ selectedRegion, resultFile }) => {
           .attr("d", path)
           .attr("fill", d => {
             const territoire = d.properties.nom; // Nom du département
-            console.log("Territoire carte", normalizeTerritory(territoire))
             return colorScale(territoryAverages[normalizeTerritory(territoire)] || 10); // 🔴 Appliquer la couleur selon la moyenne
           })
           .attr("stroke", "#333")
@@ -151,7 +172,7 @@ const RegionMap = ({ selectedRegion, resultFile }) => {
     };
 
     loadGeoJson();
-  }, [selectedRegion]);
+  }, [resultFile]);
 
   return (
     <div className="filtered-france-map-container">
