@@ -1,4 +1,4 @@
-# Xposure - Analyse de l'image de marque pour Engie
+# Xposure - Analyse de l'image de marque pour Enedis
 
 Xposure est une application développée par une équipe de Polytechniciens (X), conçue pour agréger des ressources médias et fournir des analyses approfondies de l'image de marque d'Engie.
 
@@ -19,7 +19,6 @@ Xposure est une application développée par une équipe de Polytechniciens (X),
 
 ### **Conteneurisation Docker**
 - Conteneurs distincts pour le backend, le frontend, et le serveur Nginx.
-- Intégration des fichiers statiques pour un déploiement fluide.
 
 ### **Nginx**
 - Proxy inverse pour servir les fichiers statiques et gérer les requêtes API.
@@ -30,6 +29,7 @@ Xposure est une application développée par une équipe de Polytechniciens (X),
 ## Prérequis
 
 - **Docker** et **Docker Compose** installés sur votre machine.
+- **Git**
 
 ---
 
@@ -72,6 +72,13 @@ cd Xposure
    ```
 
 2. Ajoutez l'URL backend dans le fichier `.env`.
+3. Mettre votre url dans les fichiers de conf ci-après:
+   - ```bash
+   nano nginx/nginx.conf
+   ```
+   - ```bash
+   nano backend/backend/settings.py
+   ```
 
 ### Étape 4 : Builder les conteneurs Docker
 
@@ -132,6 +139,72 @@ Utilisez le `username_superuser` et le `MDP_superuser` pour vous connecter en ta
 
 ---
 
-## Objectifs du projet
+# Objectifs du projet
 
-**Xposure : Parce que l'image de marque compte.**
+Le premier objectif du projet était de prendre un fichier Excel avec les colonnes `['Date','Territoire','Sujet','Thème','Qualité du retour','Média','Articles']` et de compléter les colonnes `['Thème','Qualité du retour']`
+
+Ensuite, parmi les dépassements proposés, on a pu atteindre:
+- prétraiter un pdf de revue médiatique pour le convertir en fichier Excel au bon format
+- analyser les données obtenues
+- faire un chatbot sur les fichiers
+- générer un pdf de compte rendu des résultats
+
+## Réalisation
+
+**Outils proposés**
+- Un dashboard de 5 pages:
+  - File management
+  - Geo analysis
+  - Statistics
+  - Ai assistant
+  - Generate report
+
+Des algos de classification, prétraitement et post traitement de pdf, un système rag
+
+### Algos de classification
+- **Prompting d'un LLM**: En utilisant les informations présentes, réalisation d'un prompt à un LLM afin de classer l'article (Qualité du retour, Thème). Les prompts employés ont été établit par l'analyse des données, Chaine of thought, formatage des données d'entrée.
+
+- **Tentatives**: On a tenté d'implémenter un modèle BERT Finetuné mais les résultats étaient moins bon (convergeait vers le classifier de base)
+
+- **Problèmes**: Dataset déséquilibré, mal formaté
+
+### Algos de génération de pdf
+- **Datas** : Utilisation du fichier Excel comme données d'entrée
+- **Génération structure** : Génération de la structure du pdf, et des graphes
+- **Génération contenu** : Génération du contenu du pdf, réalisation d'une analyse et interprétation de chaque graphe puis d'une synthèse globale.
+
+### IA Assistant : Algos du système RAG (Retrieval-Augmented Generation)
+Tout d'abord l'ai assistant reçoit un prompt.
+
+Ce prompt est envoyé aux serveur d'aws qui nous génère un context à la question posée en se basant sur les fichiers uploadés (système RAG)
+
+Puis ce context est mis en context de la question de l'utilisateur (avec l'historique de la conversation) et génère la réponse
+
+**RAG**
+- **Upload**: Il y a une phase d'upload en amont des données sur un serveur S3
+- **Sync**: Il y a une phase de synchronisation qui va indexer tous les fichiers
+- **Query**: Il y a une phase de query qui récupère les fichiers qui correspondent à la query (dans notre cas récupérer les contexts pertinents)
+
+## Architecture
+![Schéma de l'architecture](architecture.png)
+
+### Intégration d'AWS
+- **EC2** : Hébergement de la solution sur EC2
+- **S3** : Stockage des données pour le RAG et Textract
+- **Textract** : Prétraitement des pdf pour les convertir en fichier Excel
+- **Opensearch** : Indexation et recherche rapide des données extraites, facilitant l’accès aux informations dans un flux RAG.
+- **Bedrock** : Interaction avec un modèle LLM pour générer des réponses enrichies et contextualisées
+
+### Technologies additionnelles
+
+#### Websocket
+Pour rendre la solution plus dynamique, un WebSocket est mis en place entre l'utilisateur et le serveur. Ainsi, lorsque l'utilisateur envoie un prompt, celui-ci est récupéré et traité, puis invoke_model_with_response_stream est appelé. Cette fonction crée à son tour un tunnel entre le serveur et l'API AWS. À chaque nouveau token reçu, celui-ci est transmis en streaming au client.
+
+#### Docker
+Pour faciliter la mise en place du projet, sa scalabilité, et sa faciliter de repoduction.
+En effet, en suivant le tutoriel la webapp peut-être installé sur n'importe quel ordinateur (dans notre cas testé en loaclhost et mis en place sur une instance EC2 d'AWS)
+
+Cela permet également une meilleur gestion, en effet le backend est déployé sous forme d'api, donc on peut se dispenser d'utiliser le front.
+
+Enfin, une instance nginx gère automatiquement l'intéraction de tous les dockers.
+

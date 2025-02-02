@@ -241,7 +241,5 @@ def generate_pdf_from_dataframe(df, pdf_filename="rapport_graphes.pdf"):
 
     return temp_path
 
-# Appel de la fonction avec un fichier Excel
-generate_pdf_result("result_file_excel.xlsx")
 
 
