@@ -20,7 +20,7 @@ Tu vas recevoir un article dans un mauvais format. Ta tâche sera d'extraire du 
 
 **Output**
 A partir de l'article et en suivant les consignes, Tu répondra sous la forme json avec 4 clés :
-- "Média" : nom du média officiel (dans le bon format et en minuscule) que tu déduira de ce que tu trouve dans l'article. Par exemple, si tu trouve dans l'article 'nordlitoral.fr', tu dois renvoyer 'nord litoral'.
+- "Média" : nom du média officiel (dans le bon format et en minuscule) que tu déduira de ce que tu trouve dans l'article. Par exemple, si tu trouve dans l'article 'nordlittoral.fr', tu dois renvoyer 'nord littoral'.
 - "Date" : date de publication (format : jj/mm/aaaa).
 - "Lieu" : le département d'édition que tu le déduira de la ville (en minuscule).
 - "Contenu" : contenu texte de l'article que tu recopieras mot pour mot dans un format bien lisible.
