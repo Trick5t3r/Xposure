@@ -89,6 +89,7 @@ async def search_documents(query, index_name="knowledge_base"):
 # Génération d'un prompt RAG pour Bedrock
 async def generate_knowledge_base_prompt(query):
 
+    logging.info("Génération du prompt pour Bedrock...")
     context = get_knowledge_base(query)
     prompt = f"""
     Tu es un assistant intelligent utilisant une base de connaissances.
@@ -115,29 +116,15 @@ async def async_llm_discussion(current_session, newMessage):
         data_messages_renderer = list(old_data.get("messages", {}))
         data_datas = list(old_data.get("datas", {}))
 
-        chat_session = current_session.session
 
-        # Recherche asynchrone du fichier Excel
-        files = await sync_to_async(
-            lambda: list(ExcelFile.objects.filter(
-                chatsession=chat_session, 
-                isResultFile=True, 
-                region=last_newMessage['context'].get("region"), 
-                date=last_newMessage['context'].get("date")
-            ))
-        )()
-
-        if files:
-            excel = files[0].file.path
-            improved_message = {"role": "user", "content": await generate_knowledge_base_prompt(last_newMessage["content"], excel)}
-            
-            message_initial = {"role": "user", "content": last_newMessage["content"]}
-        else:
-            improved_message = {"role": "user", "content": last_newMessage["content"]}
-            message_initial = {"role": "user", "content": last_newMessage["content"]}
-
-        data_messages.append(improved_message)
+        
+        message_initial = {"role": "user", "content": last_newMessage["content"]}
         data_messages_renderer.append(message_initial)
+
+        await send_update_chat(current_session, data_messages_renderer, data_datas, "Thinking...")
+        improved_message = {"role": "user", "content": await generate_knowledge_base_prompt(last_newMessage["content"])}
+        data_messages.append(improved_message)
+        
 
         data_messages = [{k: v for k, v in d.items() if k != "context"} for d in data_messages]
         data_messages_renderer = [{k: v for k, v in d.items() if k != "context"} for d in data_messages_renderer]
