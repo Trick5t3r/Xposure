@@ -97,12 +97,12 @@ function DashboardPage() {
         },    
         {
             id: "section-analyses",
-            title: <h1>Geographic Analysis</h1>,
+            title: <h1>Geographical Analysis</h1>,
             content: <GeographicDashboard loadSession={loadSession} selectedDashboardRegion={selectedDashboardRegion} selectedDate={selectedDate} loadResultFile={loadResultFile}/>
         },
         {
             id: "section-relations-causales",
-            title: <h1>Theme Comparison</h1>,
+            title: <h1>General Statistics</h1>,
             content: <ChartDashboard selectedDashboardRegion={selectedDashboardRegion} selectedDate={selectedDate} loadResultFile={loadResultFile}/>
         },
         {

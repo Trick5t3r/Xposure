@@ -21,11 +21,33 @@ src: url(../fonts/RubikVinyl-Regular.ttf);
 }
 
 .chart-dashboard-container {
+    padding-top: 50px;
+}
+
+.chart-dashboard-container h1 {
+    font-family: "font-reg", sans-serif;
+    color: var(--background);
+    font-size: 1.69rem;
+    margin: 0;
+    margin-left: 60px;
+    margin-bottom: 40px;
+    text-decoration: underline;
+}
+
+.first-chart-container {
     display: flex;
     flex-wrap: wrap; /* Permet de passer à la ligne si nécessaire */
     justify-content: center; /* Centre les éléments horizontalement */
     gap: 60px; /* Ajoute un espace entre les graphiques */
-    padding-top: 50px;
+    margin-bottom: 50px;
+}
+
+.second-chart-container {
+    display: flex;
+    flex-wrap: wrap; /* Permet de passer à la ligne si nécessaire */
+    justify-content: center; /* Centre les éléments horizontalement */
+    gap: 70px; /* Ajoute un espace entre les graphiques */
+    margin-bottom: 50px;
 }
 
 .chart-component {

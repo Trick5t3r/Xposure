@@ -10,6 +10,13 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 // [30, 50, 20, 100, 13]
 const ChartDashboard = ({selectedDashboardRegion, selectedDate, loadResultFile}) => {
     const [resultFile, setResultFile] = useState([]);
+    function normalizeString(str) {
+        return str
+            .normalize("NFD") // Décompose les caractères avec accents
+            .replace(/[̀-ͯ]/g, "") // Supprime les accents
+            .replace(/[-\s\/]/g, "") // Supprime les espaces, tirets et slashs
+            .toLowerCase(); // Convertit en minuscules
+    };
     const themes = [
         "Transition écologique",
         "Linky",
@@ -25,6 +32,13 @@ const ChartDashboard = ({selectedDashboardRegion, selectedDate, loadResultFile})
         "Partenariats",
         "Prévention"
     ];
+    const themesMatch = themes.reduce((acc, theme) => {
+        acc[normalizeString(theme)] = theme;
+        return acc;
+    }, {});
+    
+    console.log(themesMatch);
+
     const colors = [
         "#FFC328",
         "#A5D936",
@@ -49,6 +63,11 @@ const ChartDashboard = ({selectedDashboardRegion, selectedDate, loadResultFile})
         "Positif nuancé",
         "Positif"
     ];
+    const retourMatch = retours.reduce((acc, retour) => {
+        acc[normalizeString(retour)] = retour;
+        return acc;
+    }, {});
+
     const dashboardRegion = (selectedDashboardRegion === "all" || (!selectedDashboardRegion)) ? -1 : selectedDashboardRegion;
     const dashboardDate = selectedDate.toISOString().slice(0, 7);
     useEffect(() => {
@@ -77,21 +96,21 @@ const ChartDashboard = ({selectedDashboardRegion, selectedDate, loadResultFile})
         let statsMap = Object.fromEntries(stats.map(item => [item.theme, item.content]));
     
         data.forEach(({ "Thème": theme, "Qualité du retour": retour }) => {
-            if (statsMap[theme] && statsMap[theme][retour] !== undefined) {
-                statsMap[theme][retour]++;
+            if (statsMap[themesMatch[normalizeString(theme)]] && statsMap[themesMatch[normalizeString(theme)]][retourMatch[normalizeString(retour)]] !== undefined) {
+                statsMap[themesMatch[normalizeString(theme)]][retourMatch[normalizeString(retour)]]++;
             }
         });
     
         return stats;
     };
 
-    const data = themes.map((theme) => {
-        return {
-            "theme": theme,
-            "content": generateRandomData(retours)
-        }
-    });
-    // const data = computeThemeStats(resultFile, themes, retours);
+    // const data = themes.map((theme) => {
+    //     return {
+    //         "theme": theme,
+    //         "content": generateRandomData(retours)
+    //     }
+    // });
+    const data = computeThemeStats(resultFile, themes, retours);
 
     const ChartComponents = ({ jsonData, title, color }) => {
         const labels = Object.keys(jsonData);
@@ -152,15 +171,50 @@ const ChartDashboard = ({selectedDashboardRegion, selectedDate, loadResultFile})
         };
       
         return <Bar data={data} options={options} />;
-      };
+    };
 
+    const mediaMatch = {
+        "nordlitoral": "Nord Litoral",
+        "lavoixdunord": "La Voix du Nord"
+    };
+    const medias = ["Nord Litoral", "La Voix du Nord"];
+
+    const computeMediaStats = (data, medias, retours) => {
+        let stats = medias.map(media => ({
+            media,
+            content: Object.fromEntries(retours.map(retour => [retour, 0]))
+        }));
+    
+        let statsMap = Object.fromEntries(stats.map(item => [item.media, item.content]));
+    
+        data.forEach(({ "Média": media, "Qualité du retour": retour }) => {
+            if (statsMap[mediaMatch[normalizeString(media)]] && statsMap[mediaMatch[normalizeString(media)]][retourMatch[normalizeString(retour)]] !== undefined) {
+                statsMap[mediaMatch[normalizeString(media)]][retourMatch[normalizeString(retour)]]++;
+            }
+        });
+    
+        return stats;
+    };
+
+    const dataMedia = computeMediaStats(resultFile, medias, retours);
     return (
         <div className="chart-dashboard-container">
-            {data.map((item, index) => (
-                <div className="chart-component" key={index}>
-                    <ChartComponents jsonData={item["content"]} title={item["theme"]} color={colors[index]}/>
-                </div>
-            ))}
+            <h1>Theme Analysis</h1>
+            <div className="first-chart-container">
+                {data.map((item, index) => (
+                    <div className="chart-component" key={index}>
+                        <ChartComponents jsonData={item["content"]} title={item["theme"]} color={colors[index]}/>
+                    </div>
+                ))}
+            </div>
+            <h1>Media Analysis</h1>
+            <div className="second-chart-container">
+                {dataMedia.map((item, index) => (
+                        <div className="chart-component" key={index}>
+                            <ChartComponents jsonData={item["content"]} title={item["media"]} color={colors[index]}/>
+                        </div>
+                    ))}
+            </div>
         </div>
     )
 }
