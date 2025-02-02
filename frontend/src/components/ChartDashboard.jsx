@@ -12,11 +12,11 @@ const ChartDashboard = ({selectedDashboardRegion, selectedDate, loadResultFile})
     const [resultFile, setResultFile] = useState([]);
     function normalizeString(str) {
         return str
-            .normalize("NFD") // Décompose les caractères avec accents
-            .replace(/[̀-ͯ]/g, "") // Supprime les accents
-            .replace(/[-\s\/]/g, "") // Supprime les espaces, tirets et slashs
-            .toLowerCase(); // Convertit en minuscules
-    };
+            .normalize("NFD")
+            .replace(/[̀-ͯ]/g, "")
+            .replace(/[-\s\/']/g, "") // Ajout de l'apostrophe ici
+            .toLowerCase();
+    };    
     const themes = [
         "Transition écologique",
         "Linky",
@@ -174,10 +174,15 @@ const ChartDashboard = ({selectedDashboardRegion, selectedDate, loadResultFile})
     };
 
     const mediaMatch = {
-        "nordlitoral": "Nord Litoral",
-        "lavoixdunord": "La Voix du Nord"
+        "nordlitoral": "Nord Littoral",
+        "nordlittoral": "Nord Littoral",
+        "lavoixdunord": "La Voix du Nord",
+        "lepharedunkerquois": "Nord Littoral",
+        "lejournaldesflandres": "Nord Littoral",
+        "lobservateur": "L'Observateur",
+        "nordeclair": "La Voix du Nord"
     };
-    const medias = ["Nord Litoral", "La Voix du Nord"];
+    const medias = ["Nord Littoral", "La Voix du Nord", "L'Observateur"];
 
     const computeMediaStats = (data, medias, retours) => {
         let stats = medias.map(media => ({
