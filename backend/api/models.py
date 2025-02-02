@@ -142,10 +142,10 @@ class ExcelFile(BaseFile):
             file_path = self.file.path
             os.chmod(file_path, stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IWGRP | stat.S_IROTH | stat.S_IWOTH)
             if self.isResultFile:
-                complete_excel(file_path)
+                db_wb = complete_excel(file_path)
 
                 # Générer le PDF temporaire
-                temp_pdf_path = generate_pdf_result(file_path)
+                temp_pdf_path = generate_pdf_result(db_wb)
                 
                 # Vérifier s'il existe déjà un fichier pour ces critères
                 try:
